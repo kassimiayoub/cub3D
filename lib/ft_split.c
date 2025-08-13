@@ -6,22 +6,11 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 12:46:07 by aykassim          #+#    #+#             */
-/*   Updated: 2025/08/13 15:53:41 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/08/13 17:42:49 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-static void	*free_strings(char **strings, int j)
-{
-	while (j >= 0)
-	{
-		free(strings[j]);
-		j--;
-	}
-	free(strings);
-	return (NULL);
-}
 
 static int	count_words(char const *str, char charset)
 {
@@ -79,7 +68,7 @@ static char	**allwork(t_gc *gc, char **strings, char const *s, char c)
 		{
 			strings[j] = ft_strcpy(gc, &s[i], c);
 			if (!strings[j])
-				return (free_strings(strings, j - 1));
+				return (NULL);
 			j++;
 		}
 		while (s[i] != '\0' && s[i] != c)

@@ -1,10 +1,10 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include "get_next_line.h"
-#include <stdio.h>
-#include <fcntl.h>
-#include <stdlib.h>
+# include "get_next_line.h"
+# include <stdio.h>
+# include <fcntl.h>
+# include <stdlib.h>
 
 typedef struct s_game
 {

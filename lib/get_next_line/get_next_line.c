@@ -6,7 +6,7 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 17:20:15 by aykassim          #+#    #+#             */
-/*   Updated: 2025/08/13 15:38:00 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/08/13 17:44:00 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,23 +43,21 @@ char	*get_buffer(t_gc *gc, int fd, char *buffer)
 
 	new_buff = (char *)gc_malloc(gc, (size_t)BUFFER_SIZE + 1);
 	if (!new_buff)
-		return (free(buffer), buffer = NULL, NULL);
+		return (buffer = NULL, NULL);
 	bytsread = 1;
 	while (bytsread > 0)
 	{
 		bytsread = read(fd, new_buff, BUFFER_SIZE);
 		if (bytsread == -1)
-			return (free(new_buff), new_buff = NULL, NULL);
+			return (new_buff = NULL, NULL);
 		new_buff[bytsread] = '\0';
 		tmp = buffer;
 		buffer = ft_strjoin(gc, buffer, new_buff);
-		free(tmp);
 		if (!buffer)
-			return (free (new_buff), NULL);
+			return (NULL);
 		if (find_newline(new_buff) >= 0)
 			break ;
 	}
-	free(new_buff);
 	return (buffer);
 }
 
@@ -101,13 +99,10 @@ char	*get_afterline(t_gc *gc, char *buffer)
 	j = 0;
 	newlindex = find_newline(buffer);
 	if (newlindex == -1)
-	{
-		free(buffer);
 		return (NULL);
-	}
 	line = gc_malloc(gc, ft_strlen(buffer) - newlindex + 1);
 	if (!line)
-		return (free(buffer), NULL);
+		return (NULL);
 	newlindex++;
 	while (buffer[newlindex])
 	{
@@ -116,7 +111,6 @@ char	*get_afterline(t_gc *gc, char *buffer)
 		newlindex++;
 	}
 	line[j] = '\0';
-	free(buffer);
 	return (line);
 }
 
@@ -127,13 +121,13 @@ char	*get_next_line(t_gc *gc, int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0
 		|| BUFFER_SIZE > INT_MAX)
-		return (free (buffer), buffer = NULL, NULL);
+		return (buffer = NULL, NULL);
 	buffer = get_buffer(gc, fd, buffer);
 	if (!buffer)
-		return (free(buffer), buffer = NULL, NULL);
+		return (buffer = NULL, NULL);
 	line = get_lines(gc, buffer);
 	if (!line)
-		return (free(buffer), buffer = NULL, NULL);
+		return (buffer = NULL, NULL);
 	buffer = get_afterline(gc, buffer);
 	return (line);
 }

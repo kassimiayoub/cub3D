@@ -6,7 +6,7 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 16:06:22 by aykassim          #+#    #+#             */
-/*   Updated: 2025/08/13 16:58:35 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/08/13 17:51:54 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,6 @@ int	detect_isline_map(char *str)
 	int	i;
 
 	i = 0;
-	// while (str[i])
-	// {
-	// 	if ()
-	// 		i++;
-	// 	else
-	// 		break;
-	// }
 	if (str[i] == '1' || str[i] == '0' || str[i] == ' ')
 		return (1);
 	return (0);
@@ -49,7 +42,7 @@ char	*new_updated_line(t_gc *gc, int size, char *line)
 	len = ft_strlen(line);
 	if (len > 0 && line[len - 1] == '\n')
 		line[len - 1] = '\0';
-	new_line = gc_malloc(gc, size);;
+	new_line = gc_malloc(gc, size);
 	i = 0;
 	while (line[i])
 	{

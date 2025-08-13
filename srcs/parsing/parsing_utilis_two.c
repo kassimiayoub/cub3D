@@ -6,7 +6,7 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 16:12:04 by aykassim          #+#    #+#             */
-/*   Updated: 2025/08/13 16:48:59 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/08/13 17:52:28 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	validat_line(t_game **game, char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] != '1' && line[i] != '0' && line[i] != 'N' 
+		if (line[i] != '1' && line[i] != '0' && line[i] != 'N'
 			&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W'
 			&& line[i] != ' ' && line[i] != '\n')
 			return (0);

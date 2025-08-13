@@ -6,7 +6,7 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:02:55 by aykassim          #+#    #+#             */
-/*   Updated: 2025/08/13 17:10:13 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/08/13 17:51:18 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ int	fill_map_content(t_game **game, char *map)
 	int		fd;
 	char	*line;
 	int		flag;
-	int	i;
-	int	j;
-	int	cm;
+	int		i;
+	int		j;
+	int		cm;
 
-	(*game)->map = (char **)gc_malloc((*game)->gc,((*game)->m_height + 1) * sizeof(char *));
+	(*game)->map = (char **)gc_malloc((*game)->gc, ((*game)->m_height + 1) * sizeof(char *));
 	(*game)->paths = (char **)gc_malloc((*game)->gc, 7 * sizeof(char *));
 	flag = 0;
 	fd = open(map, O_RDONLY);
@@ -35,7 +35,7 @@ int	fill_map_content(t_game **game, char *map)
 	{
 		if (detect_isline_map(line))
 		{
-			(*game)->map[i] =  new_updated_line((*game)->gc, (*game)->m_width, line);
+			(*game)->map[i] = new_updated_line((*game)->gc, (*game)->m_width, line);
 			if (!(*game)->map[i])
 				return (close(fd), 0);
 			i++;
