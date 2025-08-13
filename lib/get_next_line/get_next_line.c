@@ -6,13 +6,13 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 17:20:15 by aykassim          #+#    #+#             */
-/*   Updated: 2025/08/11 17:20:17 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/08/13 15:38:00 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "cub3D.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(t_gc *gc, char const *s1, char const *s2)
 {
 	size_t	s1len;
 	size_t	s2len;
@@ -21,12 +21,12 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!s1 && !s2)
 		return (NULL);
 	if (!s1)
-		return (ft_strdup(s2));
+		return (ft_strdup(gc, s2));
 	if (!s2)
-		return (ft_strdup(s1));
+		return (ft_strdup(gc, s1));
 	s1len = ft_strlen(s1);
 	s2len = ft_strlen(s2);
-	res = malloc(s1len + s2len + 1);
+	res = gc_malloc(gc, s1len + s2len + 1);
 	if (!res)
 		return (NULL);
 	ft_memcpy(res, s1, s1len);
@@ -35,13 +35,13 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (res);
 }
 
-char	*get_buffer(int fd, char *buffer)
+char	*get_buffer(t_gc *gc, int fd, char *buffer)
 {
 	char	*new_buff;
 	int		bytsread;
 	char	*tmp;
 
-	new_buff = (char *)malloc((size_t)BUFFER_SIZE + 1);
+	new_buff = (char *)gc_malloc(gc, (size_t)BUFFER_SIZE + 1);
 	if (!new_buff)
 		return (free(buffer), buffer = NULL, NULL);
 	bytsread = 1;
@@ -52,7 +52,7 @@ char	*get_buffer(int fd, char *buffer)
 			return (free(new_buff), new_buff = NULL, NULL);
 		new_buff[bytsread] = '\0';
 		tmp = buffer;
-		buffer = ft_strjoin(buffer, new_buff);
+		buffer = ft_strjoin(gc, buffer, new_buff);
 		free(tmp);
 		if (!buffer)
 			return (free (new_buff), NULL);
@@ -63,7 +63,7 @@ char	*get_buffer(int fd, char *buffer)
 	return (buffer);
 }
 
-char	*get_lines(char *buffer)
+char	*get_lines(t_gc *gc, char *buffer)
 {
 	char	*line;
 	int		newlindex;
@@ -75,9 +75,9 @@ char	*get_lines(char *buffer)
 	if (newlindex == -1)
 		newlindex = ft_strlen(buffer);
 	if (buffer[newlindex] == '\n')
-		line = malloc(newlindex + 2);
+		line = gc_malloc(gc, newlindex + 2);
 	else
-		line = malloc(newlindex + 1);
+		line = gc_malloc(gc, newlindex + 1);
 	if (!line)
 		return (NULL);
 	newlindex = 0;
@@ -92,7 +92,7 @@ char	*get_lines(char *buffer)
 	return (line);
 }
 
-char	*get_afterline(char *buffer)
+char	*get_afterline(t_gc *gc, char *buffer)
 {
 	char	*line;
 	int		j;
@@ -105,7 +105,7 @@ char	*get_afterline(char *buffer)
 		free(buffer);
 		return (NULL);
 	}
-	line = malloc(ft_strlen(buffer) - newlindex + 1);
+	line = gc_malloc(gc, ft_strlen(buffer) - newlindex + 1);
 	if (!line)
 		return (free(buffer), NULL);
 	newlindex++;
@@ -120,7 +120,7 @@ char	*get_afterline(char *buffer)
 	return (line);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(t_gc *gc, int fd)
 {
 	static char	*buffer;
 	char		*line;
@@ -128,12 +128,12 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0
 		|| BUFFER_SIZE > INT_MAX)
 		return (free (buffer), buffer = NULL, NULL);
-	buffer = get_buffer(fd, buffer);
+	buffer = get_buffer(gc, fd, buffer);
 	if (!buffer)
 		return (free(buffer), buffer = NULL, NULL);
-	line = get_lines(buffer);
+	line = get_lines(gc, buffer);
 	if (!line)
 		return (free(buffer), buffer = NULL, NULL);
-	buffer = get_afterline(buffer);
+	buffer = get_afterline(gc, buffer);
 	return (line);
 }

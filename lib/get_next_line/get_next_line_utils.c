@@ -6,11 +6,11 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 17:20:21 by aykassim          #+#    #+#             */
-/*   Updated: 2025/08/11 17:20:26 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/08/13 15:36:41 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "cub3D.h"
 
 size_t	ft_strlen(const char *s)
 {
@@ -57,13 +57,13 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(t_gc *gc, const char *s1)
 {
 	char	*des;
 	size_t	len;
 
 	len = ft_strlen(s1);
-	des = (char *)malloc(len + 1);
+	des = (char *)gc_malloc(gc, len + 1);
 	if (!des)
 		return (NULL);
 	ft_memcpy(des, s1, len + 1);
