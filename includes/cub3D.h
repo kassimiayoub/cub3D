@@ -22,6 +22,16 @@ typedef struct s_game
 	int		is_player;
 }	t_game;
 
+//fil map struct 
+typedef struct s_fill_map
+{
+	int		fd;
+	char	*line;
+	int		i;
+	int		j;
+	int		cm;
+}	t_fill_map;
+
 //lib
 int		ft_isalnum(int c);
 char	**ft_split(t_gc *gc, char const *s, char c);
@@ -51,4 +61,8 @@ int		validate_path(t_game **game);
 
 //parsing_utilis_Three
 int		detect_map_is_valid(t_game *game);
+int		initial_fillmap(t_game **game, char *map, t_fill_map **tf);
+int		add_line_path(t_game **game, char *line, int j);
+int		add_line_map(t_game **game, char *line, int *cm, int *i);
+
 #endif

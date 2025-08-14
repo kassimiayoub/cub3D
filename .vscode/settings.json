@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"get_next_line.h": "c",
-		"sstream": "c"
+		"sstream": "c",
+		"locale": "c"
 	}
 }

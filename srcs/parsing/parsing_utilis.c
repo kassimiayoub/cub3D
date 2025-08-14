@@ -6,70 +6,54 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:02:55 by aykassim          #+#    #+#             */
-/*   Updated: 2025/08/13 17:51:18 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/08/14 13:34:18 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+int	assis_func(t_game **game, t_fill_map **tf)
+{
+	close((*tf)->fd);
+	if ((*tf)->j >= 7 || (*tf)->cm == 0)
+		return (0);
+	(*game)->map[(*tf)->i] = NULL;
+	(*game)->paths[(*tf)->j] = NULL;
+	return (1);
+}
+
 int	fill_map_content(t_game **game, char *map)
 {
-	int		fd;
-	char	*line;
-	int		flag;
-	int		i;
-	int		j;
-	int		cm;
+	t_fill_map	*tf;
 
-	(*game)->map = (char **)gc_malloc((*game)->gc, ((*game)->m_height + 1) * sizeof(char *));
-	(*game)->paths = (char **)gc_malloc((*game)->gc, 7 * sizeof(char *));
-	flag = 0;
-	fd = open(map, O_RDONLY);
-	if (fd < 0)
-		return (0);
-	i = 0;
-	j = 0;
-	cm = 0;
-	line = get_next_line((*game)->gc, fd);
-	while (line)
+	initial_fillmap(game, map, &tf);
+	tf->line = get_next_line((*game)->gc, tf->fd);
+	while (tf->line)
 	{
-		if (detect_isline_map(line))
+		if (detect_isline_map(tf->line))
 		{
-			(*game)->map[i] = new_updated_line((*game)->gc, (*game)->m_width, line);
-			if (!(*game)->map[i])
-				return (close(fd), 0);
-			i++;
-			cm++;
+			if (!add_line_map(game, tf->line, &tf->cm, &tf->i))
+				return (close(tf->fd), 0);
 		}
 		else
 		{
-			if (line[0] == '\n')
+			if (add_line_path(game, tf->line, tf->j) == 2)
 			{
-				line = get_next_line((*game)->gc, fd);
+				tf->line = get_next_line((*game)->gc, tf->fd);
 				continue ;
 			}
-			if (j >= 7)
-				return (close(fd), 0);
-			(*game)->paths[j] = new_paths_line((*game)->gc, line);
-			if (!(*game)->paths[j])
-				return (close(fd), 0);
-			j++;
+			else if (add_line_path(game, tf->line, tf->j) == 0)
+				return (close(tf->fd), 0);
+			tf->j++;
 		}
-		line = get_next_line((*game)->gc, fd);
+		tf->line = get_next_line((*game)->gc, tf->fd);
 	}
-	close(fd);
-	(*game)->map[i] = NULL;
-	if (j >= 7)
-		return (0);
-	(*game)->paths[j] = NULL;
-	if (cm == 0)
-		return (0);
-	return (1);
+	return (assis_func(game, &tf));
 }
 
 int	all_validate_element(t_game *game, char *map)
 {
-	if (game->is_player > 1)
+	if (game->is_player != 1)
 		return (0);
 	if (!fill_map_content(&game, map))
 		return (printf("Erreur (fill_map_content!!!)\n"), 0);
