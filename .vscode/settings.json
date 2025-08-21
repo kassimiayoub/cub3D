@@ -3,5 +3,6 @@
 		"get_next_line.h": "c",
 		"sstream": "c",
 		"locale": "c"
-	}
+	},
+	"files.saveConflictResolution": "overwriteFileOnDisk"
 }

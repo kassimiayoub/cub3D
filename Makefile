@@ -2,7 +2,7 @@ CC = cc
 
 FLAGS = -Wall -Werror -Wextra -Iincludes -Imlx #-fsanitize=address -g
 
-MLX = -L. -lmlx -framework OPENGL -framework IOKit 
+MLX = -L. -lmlx -framework OPENGL -framework  Cocoa -framework IOKit 
 
 # LIBS = $(HOME)/MLX42_build/libmlx42.a -framework Cocoa -framework OpenGL -framework IOKit
 
