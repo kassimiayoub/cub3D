@@ -5,6 +5,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <stdlib.h>
+# include <mlx.h>
 
 typedef struct s_game
 {
@@ -64,5 +65,11 @@ int		detect_map_is_valid(t_game *game);
 int		initial_fillmap(t_game **game, char *map, t_fill_map **tf);
 int		add_line_path(t_game **game, char *line, int j);
 int		add_line_map(t_game **game, char *line, int *cm, int *i);
+
+
+
+
+// recasting
+int init_cub_window(t_game *game);
 
 #endif

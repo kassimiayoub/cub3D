@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utilis.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:02:55 by aykassim          #+#    #+#             */
-/*   Updated: 2025/08/14 13:34:18 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/08/21 16:05:28 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,12 @@ int	read_map(t_game **game, char *map)
 		if (flag)
 		{
 			if (!validat_line(game, line))
-				return (close(fd), 0);
+				return (printf("am over her 2"), close(fd), 0);
 		}
 		line = get_next_line((*game)->gc, fd);
 	}
 	close(fd);
 	if (!all_validate_element(*game, map))
-		return (0);
+		return (printf("am over her 1"), 0);
 	return (1);
 }
