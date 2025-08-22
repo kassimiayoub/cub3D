@@ -5,7 +5,10 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <stdlib.h>
-# include <mlx.h>
+# include <MLX42/MLX42.h>
+// # include <mlx.h>
+
+#define TILE_SIZE 32
 
 typedef struct s_game
 {
@@ -18,9 +21,11 @@ typedef struct s_game
 	char	*ea_path;
 	char	*f_color;
 	char	*c_color;
+	int		is_player;
 	int		m_height;
 	int		m_width;
-	int		is_player;
+	void	*win;
+	void	*mlx;
 }	t_game;
 
 //fil map struct 
