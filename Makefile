@@ -1,6 +1,6 @@
 CC = cc 
 
-FLAGS = -Wall -Werror -Wextra -Iincludes -I$(HOME)/MLX42_build/include -I$(HOME)/glfw/include #-fsanitize=address -g
+FLAGS = -Wall -Werror -Wextra -Iincludes -I$(HOME)/MLX42_build/include -I$(HOME)/glfw/include -fsanitize=address -g
 
 MLX42_LIB = $(HOME)/MLX42_build/lib/libmlx42.a 
 GLFW_DIR = $(HOME)/glfw/lib-universal

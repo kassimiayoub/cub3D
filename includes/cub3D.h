@@ -8,7 +8,18 @@
 # include <MLX42/MLX42.h>
 // # include <mlx.h>
 
-#define TILE_SIZE 32
+#define TILE_SIZE 64
+#define MINI_MAP_VECTOR 1
+#define FOV_ANGLE  (60 * PI / 180)
+
+typedef struct s_player{
+	float player_x;
+	float player_y;
+	float p_width;
+	float p_height;
+	int turnDirection; 
+	int walkDirection;
+} t_player;
 
 typedef struct s_game
 {
@@ -24,8 +35,16 @@ typedef struct s_game
 	int		is_player;
 	int		m_height;
 	int		m_width;
+
+
+	int		mini_map_width;
+	int		mini_map_height;
+	int		mini_map_tile; 
+
 	void	*win;
 	void	*mlx;
+	mlx_image_t *img;
+	t_player player;
 }	t_game;
 
 //fil map struct 

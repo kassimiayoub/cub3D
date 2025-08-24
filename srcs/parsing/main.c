@@ -6,7 +6,7 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:15:21 by aykassim          #+#    #+#             */
-/*   Updated: 2025/08/21 16:25:04 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/08/22 17:51:20 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ int	main(int ac, char **av)
 	game = malloc(sizeof(t_game));
 	if (!game)
 		return (printf("error allocating game\n"), 0);
-	// if (!game || !allocation_initial_struct(&game))
-	// 	return (printf("Erreurn (allocation_initial_struct!!)\n"), 1);
-	// if (!read_map(&game, av[1]))
-	// 	return (printf("Erreurn (read_map!!)\n"), free_all(game), 1);
+	if (!game || !allocation_initial_struct(&game))
+		return (printf("Erreurn (allocation_initial_struct!!)\n"), 1);
+	if (!read_map(&game, av[1]))
+		return (printf("Erreurn (read_map!!)\n"), free_all(game), 1);
 	// i = 0;
 	// while (game->map[i])
 	// {

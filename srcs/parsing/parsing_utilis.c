@@ -6,7 +6,7 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:02:55 by aykassim          #+#    #+#             */
-/*   Updated: 2025/08/21 16:05:28 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/08/22 08:42:19 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int	fill_map_content(t_game **game, char *map)
 
 int	all_validate_element(t_game *game, char *map)
 {
-	if (game->is_player != 1)
-		return (0);
+	// if (game->is_player != 1)
+	// 	return (printf("asdfasfadsfadsfds"), 0);
 	if (!fill_map_content(&game, map))
 		return (printf("Erreur (fill_map_content!!!)\n"), 0);
 	if (!detect_map_is_valid(game))
