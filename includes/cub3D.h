@@ -6,46 +6,69 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <MLX42/MLX42.h>
+# include <math.h>
+# include <float.h>
 // # include <mlx.h>
 
 #define TILE_SIZE 64
-#define MINI_MAP_VECTOR 1
-#define FOV_ANGLE  (60 * PI / 180)
-
-typedef struct s_player{
-	float player_x;
-	float player_y;
-	float p_width;
-	float p_height;
-	int turnDirection; 
-	int walkDirection;
-} t_player;
-
-typedef struct s_game
-{
-	t_gc	*gc;
-	char	**map;
-	char	**paths;
-	char	*no_path;
-	char	*so_path;
-	char	*we_path;
-	char	*ea_path;
-	char	*f_color;
-	char	*c_color;
-	int		is_player;
-	int		m_height;
-	int		m_width;
+#define MINI_MAP_VECTOR 0.3
+#define FOV_ANGLE  60 * ( M_PI / 180)
+#define FRAME_TIME_LENGHT 16
+#define NUM_RAYS  1
+#define WALL_STRIP_WIDTH  1
 
 
-	int		mini_map_width;
-	int		mini_map_height;
-	int		mini_map_tile; 
+typedef struct s_ray {
+    float rayAngle; 
+    float wallHitX;
+    float wallHitY;
+    float distance; 
+    int wallHitHorizontal;
+    int wallHitVertical; 
+    int isRayFacingUp; 
+    int isRayFacingDown;
+    int isRayFacingLeft;
+    int isRayFacingRight;
+    int wasHitVertical; 
+    int wallHitContent; 
+} t_ray[NUM_RAYS];
 
-	void	*win;
-	void	*mlx;
-	mlx_image_t *img;
-	t_player player;
-}	t_game;
+typedef struct s_player {
+    float player_x;
+    float player_y;
+    float p_width; 
+    float p_height;
+    int turnDirection;
+    int walkDirection; 
+    float rotationAngle;
+    float walkSpeed; 
+    float turnSpeed; 
+    int is_init; 
+} t_player; 
+         
+         
+typedef struct s_game { 
+    t_gc *gc; char **map; 
+    char **paths; 
+    char *no_path; 
+    char *so_path; 
+    char *we_path; 
+    char *ea_path; 
+    char *f_color; 
+    char *c_color; 
+    int is_player; 
+    int m_height;
+    int m_width;
+    int mini_map_width; 
+    int mini_map_height; 
+    int mini_map_tile;
+    void *win; 
+    void *mlx; 
+    mlx_image_t *img;
+    long last_frame_ms;
+    t_player player;
+    t_ray ray; 
+} t_game;
 
 //fil map struct 
 typedef struct s_fill_map

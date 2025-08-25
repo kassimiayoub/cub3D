@@ -6,7 +6,7 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:09:06 by aykassim          #+#    #+#             */
-/*   Updated: 2025/08/21 15:37:59 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/08/24 15:07:41 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
+# include <sys/time.h>
 
 
 typedef struct s_gc_node
