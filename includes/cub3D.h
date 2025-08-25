@@ -11,10 +11,10 @@
 // # include <mlx.h>
 
 #define TILE_SIZE 64
-#define MINI_MAP_VECTOR 0.3
+#define MINI_MAP_VECTOR 1
 #define FOV_ANGLE  60 * ( M_PI / 180)
 #define FRAME_TIME_LENGHT 16
-#define NUM_RAYS  1
+#define NUM_RAYS  10000
 #define WALL_STRIP_WIDTH  1
 
 
