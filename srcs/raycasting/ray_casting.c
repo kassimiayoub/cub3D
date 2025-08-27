@@ -5,8 +5,8 @@ int check_for_collision(t_game *game, int newPlayerX, int newPlayerY) {
     int map_x = newPlayerX / game->mini_map_tile;
     int map_y = newPlayerY / game->mini_map_tile;
 
-    if (map_x < 0 || map_x >= game->mini_map_width ||
-        map_y < 0 || map_y >= game->mini_map_height)
+    if (map_x < 0 || map_x >= game->m_width ||
+        map_y < 0 || map_y >= game->m_height)
         return 1;
 
     if (game->map[map_y][map_x] == '1')
@@ -95,18 +95,18 @@ void draw_all_lines(t_game *game){
 
 
 void draw_player_direction(t_game *game) {
-    float ray_len = 80;
-    uint32_t ray_color = 0xFF00EEFF;
+    float ray_len = 20;
+    uint32_t ray_color = 0x0000FF;
     
-    int end_x = (int)(game->player.player_x + cos(game->player.rotationAngle) * ray_len);
-    int end_y = (int)(game->player.player_y + sin(game->player.rotationAngle) * ray_len);
+    int end_x = (int)(game->player.player_x + (cos(game->player.rotationAngle) * ray_len));
+    int end_y = (int)(game->player.player_y + (sin(game->player.rotationAngle) * ray_len));
     
     draw_line(game->img, (int)game->player.player_x, (int)game->player.player_y, end_x, end_y, ray_color);
 }
 
 void draw_player(t_game *game) {
-    int player_size = 4;
-    uint32_t player_color = 0x00FF00FF;
+    int player_size = game->player.p_height * game->player.p_width;
+    uint32_t player_color = 0x0000FF;
     
     for (int i = -player_size; i <= player_size; i++) {
         for (int j = -player_size; j <= player_size; j++) {
@@ -121,9 +121,8 @@ void draw_player(t_game *game) {
 
 void init_player_position(t_game *game, int x, int y) {
     if (game->player.player_x == 0 && game->player.player_y == 0) {
-        game->player.player_x = (x * game->mini_map_tile) + (game->mini_map_tile / 2);
+        game->player.player_x = (x * game->mini_map_tile) + (game->mini_map_tile / 2); /// this for putting the player in the middle of the grid
         game->player.player_y = (y * game->mini_map_tile) + (game->mini_map_tile / 2);
-        game->player.rotationAngle = M_PI / 2;
         game->player.walkSpeed = 100.0f;
         game->player.turnSpeed = 0.2 * (180 / M_PI);
         game->player.walkDirection = 0;
@@ -146,8 +145,8 @@ void castRay(t_game *game, float rayAngle, int stripId){
     // int isRayFacingLeft = !isRayFacingRight;
 
 
-    int isRayFacingUp = rayAngle > M_PI;
-    int isRayFacingDown = !isRayFacingUp;
+    int isRayFacingDown = rayAngle > 0 && rayAngle < M_PI;
+    int isRayFacingUp = !isRayFacingDown;
     int isRayFacingRight = rayAngle < M_PI / 2 || rayAngle > 3 * M_PI / 2; 
     int isRayFacingLeft = !isRayFacingRight;
 
@@ -179,7 +178,7 @@ void castRay(t_game *game, float rayAngle, int stripId){
     if (fabs(tan(rayAngle)) < 0.0001) {
         xstep = 0; // Ray zis horizontal
     } else {
-        xstep = game->mini_map_tile / tan(rayAngle);
+        xstep = ystep / tan(rayAngle);
         xstep *= (isRayFacingLeft && xstep > 0) ? -1 : 1;
         xstep *= (isRayFacingRight && xstep < 0) ? -1 : 1;
     }
@@ -229,7 +228,7 @@ void castRay(t_game *game, float rayAngle, int stripId){
     if (fabs(cos(rayAngle)) < 0.0001) {
         ystep = 0;
     } else {
-        ystep = game->mini_map_tile * tan(rayAngle);
+        ystep = xstep  * tan(rayAngle);
         ystep *= (isRayFacingUp && ystep > 0) ? -1 : 1;
         ystep *= (isRayFacingDown && ystep < 0) ? -1 : 1;
     }
@@ -285,14 +284,17 @@ void castRay(t_game *game, float rayAngle, int stripId){
     game->ray[stripId].isRayFacingRight = isRayFacingRight;
     game->ray[stripId].distance *= cos(rayAngle - game->player.rotationAngle);
 }
-
+/// @brief  amover here
+/// @param game 
 void castAllRays(t_game *game){
     if (!game || !game->map || !game->player.is_init)
         return ; 
     float rayAngle = game->player.rotationAngle - (FOV_ANGLE / 2);
+    float angleStep = FOV_ANGLE / (NUM_RAYS - 1);
+    printf("the angle stepe is %f\n", angleStep);
     for (int stripid = 0; stripid < NUM_RAYS; stripid++){
         castRay(game, rayAngle, stripid);
-        rayAngle += FOV_ANGLE / NUM_RAYS;
+        rayAngle += angleStep;
     }
 }
 
@@ -305,7 +307,7 @@ void draw_map(t_game *game) {
                 color = 0x000000FF;
             } else if (game->player.is_init == 0 && (game->map[y][x] == 'N' || game->map[y][x] == 'S' || 
                       game->map[y][x] == 'E' || game->map[y][x] == 'W')) {
-                color = 0xFFFFFFFF;
+                // color = 0xFFFFFFFF;
                 init_player_position(game, x, y);
 				game->player.is_init = 1;
                 if (game->map[y][x] == 'N') game->player.rotationAngle = 3 * M_PI / 2;
@@ -329,8 +331,8 @@ void draw_map(t_game *game) {
     }
     castAllRays(game);
     draw_all_lines(game);
-    draw_player(game);
     draw_player_direction(game);
+    draw_player(game);
 }
 
 void render(t_game *game) {
@@ -405,6 +407,7 @@ void process_input(t_game *game) {
 void update_player(t_game *game, float delta_time) {
     if (game->player.turnDirection != 0) {
         game->player.rotationAngle += game->player.turnDirection * game->player.turnSpeed * delta_time;
+        printf("the rotation angle is : %f\n", game->player.rotationAngle);
         while (game->player.rotationAngle < 0) {
             game->player.rotationAngle += 2 * M_PI;
         }
@@ -455,6 +458,8 @@ int init_cub_window(t_game *game) {
     
     game->player.player_x = 0;
     game->player.player_y = 0;
+    game->player.p_width = 2;
+    game->player.p_height = 2;
     game->last_frame_ms = get_current_time();
     
     game->mlx = mlx_init(window_width, window_height, "cub3D", true);

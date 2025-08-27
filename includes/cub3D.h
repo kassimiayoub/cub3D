@@ -16,6 +16,7 @@
 #define FRAME_TIME_LENGHT 16
 #define NUM_RAYS  10000
 #define WALL_STRIP_WIDTH  1
+#define RES  4
 
 
 typedef struct s_ray {
