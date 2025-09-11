@@ -10,13 +10,19 @@
 # include <float.h>
 // # include <mlx.h>
 
-#define TILE_SIZE 64
+#define TILE_SIZE 32
 #define MINI_MAP_VECTOR 1
-#define FOV_ANGLE  60 * ( M_PI / 180)
-#define FRAME_TIME_LENGHT 16
-#define NUM_RAYS  10000
-#define WALL_STRIP_WIDTH  1
-#define RES  4
+#define FOV_ANGLE (60 * M_PI / 180)
+#define NUM_RAYS 10000
+
+
+#define CEILING_COLOR 0x87CEEBFF
+#define FLOOR_COLOR 0x8B4513FF
+#define WALL_COLOR_NR 0x808080FF
+#define WALL_COLOR_EW 0x606060FF
+// #define FRAME_TIME_LENGHT 16
+// #define WALL_STRIP_WIDTH 1
+// #define RES 4
 
 
 typedef struct s_ray {
@@ -32,14 +38,14 @@ typedef struct s_ray {
     int isRayFacingRight;
     int wasHitVertical; 
     int wallHitContent; 
-} t_ray[NUM_RAYS];
+} t_ray;
 
 typedef struct s_player {
     float player_x;
     float player_y;
     float p_width; 
     float p_height;
-    int turnDirection;
+    float turnDirection;
     int walkDirection; 
     float rotationAngle;
     float walkSpeed; 
@@ -68,7 +74,7 @@ typedef struct s_game {
     mlx_image_t *img;
     long last_frame_ms;
     t_player player;
-    t_ray ray; 
+    t_ray *ray; 
 } t_game;
 
 //fil map struct 
@@ -119,5 +125,6 @@ int		add_line_map(t_game **game, char *line, int *cm, int *i);
 
 // recasting
 int init_cub_window(t_game *game);
+void draw_3D_wall(t_game *game);
 
 #endif

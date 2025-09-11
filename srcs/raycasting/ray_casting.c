@@ -81,6 +81,7 @@ void    draw_line(void *win, int x1, int y1, int x2, int y2, int color)
 
 void draw_all_lines(t_game *game){
     uint32_t ray_color = 0xFF0000FF;
+    int rays_drawn = 0;
     for (int i = 0; i < NUM_RAYS; i++){
         if (game->ray[i].distance < FLT_MAX){    
                 draw_line(game->img,
@@ -89,6 +90,7 @@ void draw_all_lines(t_game *game){
                 (int)game->ray[i].wallHitX,
                 (int)game->ray[i].wallHitY,
                 ray_color);
+                rays_drawn++;
         }
     } 
 }
@@ -123,8 +125,8 @@ void init_player_position(t_game *game, int x, int y) {
     if (game->player.player_x == 0 && game->player.player_y == 0) {
         game->player.player_x = (x * game->mini_map_tile) + (game->mini_map_tile / 2); /// this for putting the player in the middle of the grid
         game->player.player_y = (y * game->mini_map_tile) + (game->mini_map_tile / 2);
-        game->player.walkSpeed = 100.0f;
-        game->player.turnSpeed = 0.2 * (180 / M_PI);
+        game->player.walkSpeed = 200.0f;
+        game->player.turnSpeed = 2.0f;
         game->player.walkDirection = 0;
         game->player.turnDirection = 0;
     }
@@ -139,12 +141,8 @@ float  normalizeAngle(float rayAngle){
 
 void castRay(t_game *game, float rayAngle, int stripId){
     rayAngle = normalizeAngle(rayAngle);
-    // int isRayFacingUp = rayAngle > 0 && rayAngle < M_PI;
-    // int isRayFacingDown = !isRayFacingUp;
-    // int isRayFacingRight = rayAngle < M_PI / 2 || rayAngle > 3 * M_PI / 2; 
-    // int isRayFacingLeft = !isRayFacingRight;
-
-
+    
+    // For screen coordinates (Y increases downward)
     int isRayFacingDown = rayAngle > 0 && rayAngle < M_PI;
     int isRayFacingUp = !isRayFacingDown;
     int isRayFacingRight = rayAngle < M_PI / 2 || rayAngle > 3 * M_PI / 2; 
@@ -153,100 +151,88 @@ void castRay(t_game *game, float rayAngle, int stripId){
     float xintercept, yintercept;
     float xstep, ystep;
 
-    /// @brief handle the horizontal wall hit logic first 
+    /// HORIZONTAL RAY-GRID INTERSECTION
     int foundHorizontalWallHit = 0;
     float horizWallHitX = 0;
     float horizWallHitY = 0;
-    int horizWallContent = 0;
     
-    /// Find the y-coordinate of the closest horizo grid intersection (first point)
+    // Find the y-coordinate of the closest horizontal grid intersection
     yintercept = floor(game->player.player_y / game->mini_map_tile) * game->mini_map_tile;
     yintercept += isRayFacingDown ? game->mini_map_tile : 0;
     
-    /// Find the x-coordinate of the closest horizo grid intersection (first point)
-     if (fabs(tan(rayAngle)) < 0.0001) { // Avoid division by zero
+    // Find the x-coordinate of the closest horizontal grid intersection
+    if (fabs(tan(rayAngle)) < 0.0001) { // Ray is horizontal
         xintercept = game->player.player_x;
+        xstep = 0;
+        ystep = isRayFacingUp ? -game->mini_map_tile : game->mini_map_tile;
     } else {
         xintercept = game->player.player_x + (yintercept - game->player.player_y) / tan(rayAngle);
-    }
-    // xintercept = game->player.player_x + (yintercept - game->player.player_y) / tan(rayAngle);
-
-    /// calculate the increment xstep and ystep 
-    ystep = TILE_SIZE;
-    ystep *= isRayFacingUp ? -1 : 1;
-    
-    if (fabs(tan(rayAngle)) < 0.0001) {
-        xstep = 0; // Ray zis horizontal
-    } else {
+        
+        // Calculate steps - FIXED VERSION
+        ystep = isRayFacingUp ? -game->mini_map_tile : game->mini_map_tile;
         xstep = ystep / tan(rayAngle);
-        xstep *= (isRayFacingLeft && xstep > 0) ? -1 : 1;
-        xstep *= (isRayFacingRight && xstep < 0) ? -1 : 1;
+        
+        // Fix step signs
+        if (isRayFacingLeft && xstep > 0) xstep = -xstep;
+        if (isRayFacingRight && xstep < 0) xstep = -xstep;
     }
-
-    // xstep = TILE_SIZE / tan(rayAngle);
-    // xstep *= (isRayFacingLeft && xstep > 0) ? -1 : 1;
-    // xstep *=  (isRayFacingRight && xstep < 0) ? -1 : 1;
 
     float nextHorizTouchX = xintercept; 
     float nextHorizTouchY = yintercept;
 
-    while (nextHorizTouchX >= 0 && nextHorizTouchX < game->mini_map_width && nextHorizTouchX >= 0 && nextHorizTouchY < game->mini_map_height){
+    // Traverse horizontal grid lines
+    while (nextHorizTouchX >= 0 && nextHorizTouchX < game->mini_map_width && 
+           nextHorizTouchY >= 0 && nextHorizTouchY < game->mini_map_height) {
+        
         float xToCheck = nextHorizTouchX;
         float yToCheck = nextHorizTouchY + (isRayFacingUp ? -1 : 0);
-        if (check_for_collision(game, xToCheck, yToCheck)){
+        
+        if (check_for_collision(game, xToCheck, yToCheck)) {
             horizWallHitX = nextHorizTouchX;
             horizWallHitY = nextHorizTouchY;
-            // horizWallContent = game->map[(int)floor(yToCheck / TILE_SIZE)][(int)floor(xToCheck / TILE_SIZE)];
             foundHorizontalWallHit = 1;
             break;
-        }else {
+        } else {
             nextHorizTouchX += xstep;
             nextHorizTouchY += ystep;
         }
     }
 
-    /// @brief handle the vertical wall hit logic 
+    /// VERTICAL RAY-GRID INTERSECTION
     int foundVertWallHit = 0;
     float wallVertHitX = 0;
     float wallVertHitY = 0;
 
-
+    // Find the x-coordinate of the closest vertical grid intersection
     xintercept = floor(game->player.player_x / game->mini_map_tile) * game->mini_map_tile;
     xintercept += isRayFacingRight ? game->mini_map_tile : 0;
 
-    if (fabs(cos(rayAngle)) < 0.0001) { 
+    if (fabs(cos(rayAngle)) < 0.0001) { // Ray is vertical
         yintercept = game->player.player_y;
+        ystep = 0;
+        xstep = isRayFacingLeft ? -game->mini_map_tile : game->mini_map_tile;
     } else {
         yintercept = game->player.player_y + (xintercept - game->player.player_x) * tan(rayAngle);
+        
+        // Calculate steps - FIXED VERSION
+        xstep = isRayFacingLeft ? -game->mini_map_tile : game->mini_map_tile;
+        ystep = xstep * tan(rayAngle);
+        
+        // Fix step signs
+        if (isRayFacingUp && ystep > 0) ystep = -ystep;
+        if (isRayFacingDown && ystep < 0) ystep = -ystep;
     }
-
-    // yintercept = game->player.player_y + (xintercept - game->player.player_x) * tan(rayAngle);
-
-    xstep = game->mini_map_tile;
-    xstep *= isRayFacingLeft ? -1 : 1;
-    
-    if (fabs(cos(rayAngle)) < 0.0001) {
-        ystep = 0;
-    } else {
-        ystep = xstep  * tan(rayAngle);
-        ystep *= (isRayFacingUp && ystep > 0) ? -1 : 1;
-        ystep *= (isRayFacingDown && ystep < 0) ? -1 : 1;
-    }
-
-    // ystep = TILE_SIZE * tan(rayAngle);
-    // ystep *= (isRayFacingUp && ystep > 0) ? -1 : 1;
-    // ystep *= (isRayFacingDown && ystep < 0) ? -1 : 1;
 
     float nextVertTouchX = xintercept;
-    float  nextVertTouchY = yintercept;
-
+    float nextVertTouchY = yintercept;
     
-    while (nextVertTouchX >= 0 && nextVertTouchX < game->mini_map_width && nextVertTouchY >= 0 && nextVertTouchY <
-        game->mini_map_height
-    ) {
-
+    // Traverse vertical grid lines
+    while (nextVertTouchX >= 0 && nextVertTouchX < game->mini_map_width && 
+           nextVertTouchY >= 0 && nextVertTouchY < game->mini_map_height) {
+        
         float xToCheck = nextVertTouchX + (isRayFacingLeft ? -1 : 0);
         float yToCheck = nextVertTouchY;
+        
         if (check_for_collision(game, xToCheck, yToCheck)) {
             foundVertWallHit = 1;
             wallVertHitX = nextVertTouchX;
@@ -257,32 +243,32 @@ void castRay(t_game *game, float rayAngle, int stripId){
             nextVertTouchY += ystep;
         }
     }
-    float horizHitDistance = (foundHorizontalWallHit)
-    ? distanceBetweenPoints(game->player.player_x, game->player.player_y, horizWallHitX, horizWallHitY)
-    : FLT_MAX;
-    float vertHitDistance = (foundVertWallHit)
-    ? distanceBetweenPoints(game->player.player_x, game->player.player_y, wallVertHitX, wallVertHitY) 
-    : FLT_MAX;
 
-    if (vertHitDistance < horizHitDistance){
+    // Calculate distances and choose the closer hit
+    float horizHitDistance = foundHorizontalWallHit ? 
+        distanceBetweenPoints(game->player.player_x, game->player.player_y, horizWallHitX, horizWallHitY) : FLT_MAX;
+    float vertHitDistance = foundVertWallHit ? 
+        distanceBetweenPoints(game->player.player_x, game->player.player_y, wallVertHitX, wallVertHitY) : FLT_MAX;
+
+    if (vertHitDistance < horizHitDistance) {
         game->ray[stripId].wallHitX = wallVertHitX;
         game->ray[stripId].wallHitY = wallVertHitY;
         game->ray[stripId].distance = vertHitDistance;
         game->ray[stripId].wasHitVertical = 1;
-    }else {
+    } else {
         game->ray[stripId].wallHitX = horizWallHitX;
         game->ray[stripId].wallHitY = horizWallHitY;
         game->ray[stripId].distance = horizHitDistance;
         game->ray[stripId].wasHitVertical = 0;
-        game->ray[stripId].wallHitContent = horizWallContent;
     }
 
+    // Apply fisheye correction
+    game->ray[stripId].distance *= cos(rayAngle - game->player.rotationAngle);
     game->ray[stripId].rayAngle = rayAngle;
     game->ray[stripId].isRayFacingDown = isRayFacingDown;
     game->ray[stripId].isRayFacingUp = isRayFacingUp;
-    game->ray[stripId].isRayFacingLeft = isRayFacingLeft ;
+    game->ray[stripId].isRayFacingLeft = isRayFacingLeft;
     game->ray[stripId].isRayFacingRight = isRayFacingRight;
-    game->ray[stripId].distance *= cos(rayAngle - game->player.rotationAngle);
 }
 /// @brief  amover here
 /// @param game 
@@ -290,8 +276,7 @@ void castAllRays(t_game *game){
     if (!game || !game->map || !game->player.is_init)
         return ; 
     float rayAngle = game->player.rotationAngle - (FOV_ANGLE / 2);
-    float angleStep = FOV_ANGLE / (NUM_RAYS - 1);
-    printf("the angle stepe is %f\n", angleStep);
+    float angleStep = FOV_ANGLE / NUM_RAYS;
     for (int stripid = 0; stripid < NUM_RAYS; stripid++){
         castRay(game, rayAngle, stripid);
         rayAngle += angleStep;
@@ -339,8 +324,17 @@ void render(t_game *game) {
     mlx_delete_image(game->mlx, game->img);
     game->img = mlx_new_image(game->mlx, game->mini_map_width, game->mini_map_height);
     if (!game->img) return;
+
+    // castAllRays(game);
+
+    int show_3d_view = 1 ; 
+    if (show_3d_view){
+        draw_map(game);
+        draw_3D_wall(game);
+    }else{
+        draw_map(game);
+    }
     
-    draw_map(game);
     mlx_image_to_window(game->mlx, game->img, 0, 0);
 }
 
@@ -407,7 +401,6 @@ void process_input(t_game *game) {
 void update_player(t_game *game, float delta_time) {
     if (game->player.turnDirection != 0) {
         game->player.rotationAngle += game->player.turnDirection * game->player.turnSpeed * delta_time;
-        printf("the rotation angle is : %f\n", game->player.rotationAngle);
         while (game->player.rotationAngle < 0) {
             game->player.rotationAngle += 2 * M_PI;
         }
@@ -444,13 +437,31 @@ void game_loop(void *param) {
     render(game);
 }
 
-int init_cub_window(t_game *game) {
-    game->m_width = 15;
-    game->m_height = 11;
+int init_cub_window( t_game *game) {
+    game->m_width = 51;
+    game->m_height = 20;
 	game->player.is_init = 0;
     
     int window_width = game->m_width * TILE_SIZE;
     int window_height = game->m_height * TILE_SIZE;
+
+    game->ray = gc_malloc(game->gc, sizeof(t_ray) * NUM_RAYS);
+    if (!game->ray)
+    {
+        printf("Failed to allocate to ray \n");
+        return 0;
+    }
+    for (int i = 0; i < NUM_RAYS; i++) {
+        game->ray[i].distance = FLT_MAX;
+        game->ray[i].wallHitX = 0;
+        game->ray[i].wallHitY = 0;
+        game->ray[i].wasHitVertical = 0;
+        game->ray[i].isRayFacingUp = 0;
+        game->ray[i].isRayFacingDown = 0;
+        game->ray[i].isRayFacingLeft = 0;
+        game->ray[i].isRayFacingRight = 0;
+    }
+
     
     game->mini_map_width = (int)(window_width * MINI_MAP_VECTOR);
     game->mini_map_height = (int)(window_height * MINI_MAP_VECTOR);
@@ -475,10 +486,8 @@ int init_cub_window(t_game *game) {
     
     draw_map(game);
     mlx_image_to_window(game->mlx, game->img, 0, 0);
-    
     mlx_loop_hook(game->mlx, game_loop, game);
     mlx_loop(game->mlx);
     mlx_terminate(game->mlx);
-    
     return 1;
 }

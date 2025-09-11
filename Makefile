@@ -24,7 +24,7 @@ SRCP = srcs/parsing/main.c srcs/parsing/parsing_utilis.c srcs/parsing/parsing_ut
 
 SRCSGNL = lib/get_next_line/get_next_line.c lib/get_next_line/get_next_line_utils.c
 
-SRCR = srcs/raycasting/ray_casting.c
+SRCR = srcs/raycasting/ray_casting.c srcs/raycasting/draw_3D_walls.c
 
 OBJP = $(SRCP:%.c=%.o)
 
