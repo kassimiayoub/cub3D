@@ -1,6 +1,13 @@
 CC = cc 
 
-FLAGS = -Wall -Werror -Wextra -Iincludes #-fsanitize=address -g
+FLAGS = -Wall -Werror -Wextra -Iincludes -I$(HOME)/MLX42_build/include -I$(HOME)/glfw/include -fsanitize=address -g
+
+MLX42_LIB = $(HOME)/MLX42_build/lib/libmlx42.a 
+GLFW_DIR = $(HOME)/glfw/lib-universal
+
+LIBS = $(MLX42_LIB) -L$(GLFW_DIR) -lglfw3
+
+FRAMEWORKS = -framework Cocoa -framework OpenGL -framework IOKit -ldl -pthread -lm -framework CoreVideo
 
 NAME = cub3D
 
@@ -17,21 +24,28 @@ SRCP = srcs/parsing/main.c srcs/parsing/parsing_utilis.c srcs/parsing/parsing_ut
 
 SRCSGNL = lib/get_next_line/get_next_line.c lib/get_next_line/get_next_line_utils.c
 
+SRCR = srcs/raycasting/init.c srcs/raycasting/raycasting_main.c srcs/raycasting/utils.c \
+	srcs/raycasting/cast_ray/cast_all_rays.c srcs/raycasting/cast_ray/horizontal_ray.c srcs/raycasting/cast_ray/vertical_ray.c \
+	srcs/raycasting/drawing/draw_3D_walls.c srcs/raycasting/drawing/draw_line_and_player.c srcs/raycasting/drawing/draw_map_and_minimap.c \
+	srcs/raycasting/main_loop/game_loop.c
+
 OBJP = $(SRCP:%.c=%.o)
 
 OBJSGNL = $(SRCSGNL:%.c=%.o)
 
+OBJR = $(SRCR:%.c=%.o)
+
 
 all: $(NAME)
 
-$(NAME): $(OBJP) $(OBJSGNL)
-	$(CC) $(FLAGS) $(OBJP) $(OBJSGNL) -o $(NAME)
+$(NAME): $(OBJP) $(OBJR) $(OBJSGNL)
+	$(CC) $(FLAGS) $(OBJP) $(OBJR) $(OBJSGNL) $(LIBS) $(FRAMEWORKS) -o $(NAME) 
 
-%.o: %.c $(HEADER)
+%.o: %.c $(HEADER) $(HEADERGNL)
 	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJP) $(OBJSGNL)
+	rm -rf $(OBJP) $(OBJR) $(OBJSGNL)
 
 fclean: clean
 	rm -f $(NAME)
