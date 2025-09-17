@@ -24,7 +24,10 @@ SRCP = srcs/parsing/main.c srcs/parsing/parsing_utilis.c srcs/parsing/parsing_ut
 
 SRCSGNL = lib/get_next_line/get_next_line.c lib/get_next_line/get_next_line_utils.c
 
-SRCR = srcs/raycasting/ray_casting.c srcs/raycasting/draw_3D_walls.c
+SRCR = srcs/raycasting/init.c srcs/raycasting/raycasting_main.c srcs/raycasting/utils.c \
+	srcs/raycasting/cast_ray/cast_all_rays.c srcs/raycasting/cast_ray/horizontal_ray.c srcs/raycasting/cast_ray/vertical_ray.c \
+	srcs/raycasting/drawing/draw_3D_walls.c srcs/raycasting/drawing/draw_line_and_player.c srcs/raycasting/drawing/draw_map_and_minimap.c \
+	srcs/raycasting/main_loop/game_loop.c
 
 OBJP = $(SRCP:%.c=%.o)
 
