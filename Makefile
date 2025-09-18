@@ -1,13 +1,13 @@
 CC = cc 
 
-FLAGS = -Wall -Werror -Wextra -Iincludes -I$(HOME)/MLX42_build/include -I$(HOME)/glfw/include -fsanitize=address -g
+FLAGS = -Wall -Werror -Wextra -Iincludes -I$(HOME)/Desktop/MLX42/include -I$(HOME)/Desktop/glfw/include -fsanitize=address -g
 
-MLX42_LIB = $(HOME)/MLX42_build/lib/libmlx42.a 
-GLFW_DIR = $(HOME)/glfw/lib-universal
+MLX42_LIB = $(HOME)/Desktop/MLX42/build/libmlx42.a 
+GLFW_DIR = $(HOME)/Desktop/glfw/build/src
 
-LIBS = $(MLX42_LIB) -L$(GLFW_DIR) -lglfw3
+LIBS = $(MLX42_LIB) -L$(GLFW_DIR) -lglfw3 -lm -ldl -pthread
 
-FRAMEWORKS = -framework Cocoa -framework OpenGL -framework IOKit -ldl -pthread -lm -framework CoreVideo
+# FRAMEWORKS = -framework Cocoa -framework OpenGL -framework IOKit -ldl -pthread -lm -framework CoreVideo
 
 NAME = cub3D
 
@@ -39,7 +39,7 @@ OBJR = $(SRCR:%.c=%.o)
 all: $(NAME)
 
 $(NAME): $(OBJP) $(OBJR) $(OBJSGNL)
-	$(CC) $(FLAGS) $(OBJP) $(OBJR) $(OBJSGNL) $(LIBS) $(FRAMEWORKS) -o $(NAME) 
+	$(CC) $(FLAGS) $(OBJP) $(OBJR) $(OBJSGNL) $(LIBS) -o $(NAME) 
 
 %.o: %.c $(HEADER) $(HEADERGNL)
 	$(CC) $(FLAGS) -c $< -o $@

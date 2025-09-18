@@ -71,7 +71,7 @@ typedef struct s_line_v {
 } t_line_v;
 
 typedef struct s_ray {
-	float	rayAngle; 
+	float	ray_angle; 
 	float	wallHitX;
 	float	wallHitY;
 	float	distance; 
@@ -102,7 +102,7 @@ typedef struct s_player {
 	float walkSpeed; 
 	float turnSpeed; 
 	int is_init; 
-} t_player; 
+} t_player;
 		 
 		 
 typedef struct s_game { 
@@ -132,6 +132,8 @@ typedef struct s_game {
 	int	isRayFacingUp;
 	int isRayFacingRight;
 	int isRayFacingLeft;
+	float	horizHitDistance;
+	float	vertHitDistance;
 } t_game;
 
 //fil map struct 
@@ -194,12 +196,12 @@ void	draw_all_lines(t_game *game);
 void	draw_player_direction(t_game *game);
 void	draw_player(t_game *game);
 void	init_player_position(t_game *game, int x, int y);
-void	castHorizontalRay(t_game *game, float rayAngle, t_ray *ray);
-void	castVerticalRay(t_game *game, float rayAngle, t_ray *ray);
+void	cast_horizontal_ray(t_game *game, float rayAngle, t_ray *ray);
+void	cast_vertical_ray(t_game *game, float rayAngle, t_ray *ray);
 void	render(t_game *game);
 void	draw_mini_map(t_game *game);
 void	game_loop(void *param);
-void	castAllRays(t_game *game);
+void	cast_all_rays(t_game *game);
 void	draw_map(t_game *game);
 
 #endif

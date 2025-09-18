@@ -39,7 +39,6 @@ char	*get_buffer(t_gc *gc, int fd, char *buffer)
 {
 	char	*new_buff;
 	int		bytsread;
-	char	*tmp;
 
 	new_buff = (char *)gc_malloc(gc, (size_t)BUFFER_SIZE + 1);
 	if (!new_buff)
@@ -51,7 +50,6 @@ char	*get_buffer(t_gc *gc, int fd, char *buffer)
 		if (bytsread == -1)
 			return (new_buff = NULL, NULL);
 		new_buff[bytsread] = '\0';
-		tmp = buffer;
 		buffer = ft_strjoin(gc, buffer, new_buff);
 		if (!buffer)
 			return (NULL);

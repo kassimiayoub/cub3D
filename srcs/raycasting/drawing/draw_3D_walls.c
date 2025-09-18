@@ -42,7 +42,7 @@ void draw_3D_wall(t_game *game){
             color = FLOOR_COLOR;
         }
         // Add bounds check here!
-        if (x >= 0 && x < game->mini_map_width && y >= 0 && y < game->mini_map_height)
+        if (x >= 0 && x < game->win_width && y >= 0 && y < game->win_height)
             mlx_put_pixel(game->img, x, y, color);
     }
     }

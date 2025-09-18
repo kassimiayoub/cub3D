@@ -6,7 +6,7 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:17:03 by iaskour           #+#    #+#             */
-/*   Updated: 2025/09/17 11:19:53 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/09/18 10:26:30 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ void	init_player_position(t_game *game, int x, int y)
 {
 	if (game->player.player_x == 0 && game->player.player_y == 0)
 	{
-		game->player.player_x = (x * game->mini_map_tile)
-			+ (game->mini_map_tile / 2);
-		game->player.player_y = (y * game->mini_map_tile)
-			+ (game->mini_map_tile / 2);
+		game->player.player_x = (x * TILE_SIZE)
+			+ (TILE_SIZE / 2);
+		game->player.player_y = (y * TILE_SIZE)
+			+ (TILE_SIZE / 2);
 		game->player.walkSpeed = 60.0f;
 		game->player.turnSpeed = 2.0f;
 		game->player.walkDirection = 0;

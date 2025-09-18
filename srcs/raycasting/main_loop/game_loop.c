@@ -6,7 +6,7 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:07:04 by iaskour           #+#    #+#             */
-/*   Updated: 2025/09/17 11:46:24 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/09/18 10:28:28 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	render(t_game *game)
 {
 	mlx_delete_image(game->mlx, game->img);
 	game->img = mlx_new_image(game->mlx,
-			game->mini_map_width, game->mini_map_height);
+			game->win_width, game->win_height);
 	if (!game->img)
 		return ;
 	draw_map(game);

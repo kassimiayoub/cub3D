@@ -6,81 +6,86 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:09:05 by iaskour           #+#    #+#             */
-/*   Updated: 2025/09/17 11:40:35 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/09/18 10:24:38 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	chooseDistance(t_game *game, float rayAngle, int stripId, t_ray *ray)
+int	case_no_wall_hit(t_game *game, float ray_angle, int strip_id)
 {
-	float horizHitDistance;
-	float vertHitDistance;
-	// Calculate distances and choose the closer hit
-	horizHitDistance = ray->foundHorizontalWallHit ? 
-		distance_between_points(game->player.player_x, game->player.player_y, ray->horizWallHitX, ray->horizWallHitY) : FLT_MAX;
-	vertHitDistance = ray->foundVertWallHit ? 
-		distance_between_points(game->player.player_x, game->player.player_y, ray->wallVertHitX, ray->wallVertHitY) : FLT_MAX;
+	if (game->horizHitDistance == FLT_MAX && game->vertHitDistance == FLT_MAX)
+	{
+		game->ray[strip_id].wallHitX = game->player.player_x
+			+ cos(ray_angle) * (TILE_SIZE * 20);
+		game->ray[strip_id].wallHitY = game->player.player_y
+			+ sin(ray_angle) * (TILE_SIZE * 20);
+		game->ray[strip_id].distance = TILE_SIZE * 20;
+		game->ray[strip_id].wasHitVertical = 0;
+		return (1);
+	}
+	return (0);
+}
 
-	// ADDED: Handle case where no wall is hit
-	if (horizHitDistance == FLT_MAX && vertHitDistance == FLT_MAX) {
-		// No wall hit - set a far distance in the ray direction
-		game->ray[stripId].wallHitX = game->player.player_x + cos(rayAngle) * (TILE_SIZE * 20);
-		game->ray[stripId].wallHitY = game->player.player_y + sin(rayAngle) * (TILE_SIZE * 20);
-		game->ray[stripId].distance = TILE_SIZE * 20;
-		game->ray[stripId].wasHitVertical = 0;
-	} else if (vertHitDistance < horizHitDistance) {
-		game->ray[stripId].wallHitX = ray->wallVertHitX;
-		game->ray[stripId].wallHitY = ray->wallVertHitY;
-		game->ray[stripId].distance = vertHitDistance;
-		game->ray[stripId].wasHitVertical = 1;
-	} else {
-		game->ray[stripId].wallHitX = ray->horizWallHitX;
-		game->ray[stripId].wallHitY = ray->horizWallHitY;
-		game->ray[stripId].distance = horizHitDistance;
-		game->ray[stripId].wasHitVertical = 0;
+void	choose_distance(t_game *game, float ray_angle, int strip_id, t_ray *ray)
+{
+	game->horizHitDistance = FLT_MAX;
+	game->vertHitDistance = FLT_MAX;
+	if (ray->foundHorizontalWallHit)
+		game->horizHitDistance = distance_between_points(game->player.player_x,
+				game->player.player_y, ray->horizWallHitX, ray->horizWallHitY);
+	if (ray->foundVertWallHit)
+		game->vertHitDistance = distance_between_points(game->player.player_x,
+				game->player.player_y, ray->wallVertHitX, ray->wallVertHitY);
+	if (case_no_wall_hit(game, ray_angle, strip_id) == 0)
+	{
+		game->ray[strip_id].wallHitX = ray->horizWallHitX;
+		game->ray[strip_id].wallHitY = ray->horizWallHitY;
+		game->ray[strip_id].distance = game->vertHitDistance;
+		game->ray[strip_id].wasHitVertical = 0;
+		if (game->horizHitDistance < game->vertHitDistance)
+		{
+			game->ray[strip_id].wallHitX = ray->wallVertHitX;
+			game->ray[strip_id].wallHitY = ray->wallVertHitY;
+			game->ray[strip_id].distance = game->horizHitDistance;
+			game->ray[strip_id].wasHitVertical = 1;
+		}
 	}
 }
 
-void castRay(t_game *game, float rayAngle, int stripId, t_ray *ray)
+void	cast_ray(t_game *game, float ray_angle, int strip_id, t_ray *ray)
 {
-	rayAngle = normalize_angle(rayAngle);
-
-	ray->isRayFacingDown = rayAngle > 0 && rayAngle < M_PI;
+	ray_angle = normalize_angle(ray_angle);
+	ray->isRayFacingDown = ray_angle > 0 && ray_angle < M_PI;
 	ray->isRayFacingUp = !ray->isRayFacingDown;
-	ray->isRayFacingRight = rayAngle < M_PI / 2 || rayAngle > 3 * M_PI / 2;
+	ray->isRayFacingRight = ray_angle < M_PI / 2 || ray_angle > 3 * M_PI / 2;
 	ray->isRayFacingLeft = !ray->isRayFacingRight;
-
-	castHorizontalRay(game, rayAngle, ray);
-	castVerticalRay(game, rayAngle, ray);
-	chooseDistance(game, rayAngle, stripId, ray);
-
-	// Apply fisheye correction
-	game->ray[stripId].distance *= cos(rayAngle - game->player.rotationAngle);
-	
-	// Store ray properties
-	game->ray[stripId].rayAngle = rayAngle;
-	game->ray[stripId].isRayFacingDown = ray->isRayFacingDown;
-	game->ray[stripId].isRayFacingUp = ray->isRayFacingUp;
-	game->ray[stripId].isRayFacingLeft = ray->isRayFacingLeft;
-	game->ray[stripId].isRayFacingRight = ray->isRayFacingRight;
+	cast_horizontal_ray(game, ray_angle, ray);
+	cast_vertical_ray(game, ray_angle, ray);
+	choose_distance(game, ray_angle, strip_id, ray);
+	game->ray[strip_id].distance *= cos(ray_angle - game->player.rotationAngle);
+	game->ray[strip_id].ray_angle = ray_angle;
+	game->ray[strip_id].isRayFacingDown = ray->isRayFacingDown;
+	game->ray[strip_id].isRayFacingUp = ray->isRayFacingUp;
+	game->ray[strip_id].isRayFacingLeft = ray->isRayFacingLeft;
+	game->ray[strip_id].isRayFacingRight = ray->isRayFacingRight;
 }
 
-void	castAllRays(t_game *game)
+void	cast_all_rays(t_game *game)
 {
-	float	rayAngle;
-	float	angleStep;
-	int		stripId;
+	float	ray_angle;
+	float	angle_step;
+	int		strip_id;
 
 	if (!game || !game->map || !game->player.is_init)
 		return ;
-	rayAngle = game->player.rotationAngle - (FOV_ANGLE / 2);
-	angleStep = FOV_ANGLE / NUM_RAYS;
-	stripId = 0;
-	while (stripId < NUM_RAYS)
+	ray_angle = game->player.rotationAngle - (FOV_ANGLE / 2);
+	angle_step = FOV_ANGLE / NUM_RAYS;
+	strip_id = 0;
+	while (strip_id < NUM_RAYS)
 	{
-		castRay(game, rayAngle, stripId, game->ray);
-		rayAngle += angleStep;
-		stripId++;
+		cast_ray(game, ray_angle, strip_id, game->ray);
+		ray_angle += angle_step;
+		strip_id++;
 	}
 }

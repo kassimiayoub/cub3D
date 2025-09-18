@@ -6,7 +6,7 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:11:01 by iaskour           #+#    #+#             */
-/*   Updated: 2025/09/17 09:29:47 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/09/18 10:26:55 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ void draw_mini_map(t_game *game)
 				else if (game->map[i][j] == 'S') game->player.rotationAngle = M_PI / 2;
 				else if (game->map[i][j] == 'E') game->player.rotationAngle = 0;
 				else if (game->map[i][j] == 'W') game->player.rotationAngle = M_PI;
-			} else 
+			}
+			else 
 				color = 0xFFFFFFFF;
-				k = 0;
+			k = 0;
 			while (k < game->mini_map_tile) {
 				l = 0;
 				while(l < game->mini_map_tile)
@@ -57,7 +58,7 @@ void draw_mini_map(t_game *game)
 		}
 		i++;
 	}
-	castAllRays(game);
+	cast_all_rays(game);
 	draw_all_lines(game);
 	draw_player_direction(game);
 	draw_player(game);
@@ -66,10 +67,10 @@ void draw_mini_map(t_game *game)
 
 void	start_drawing_map(t_game *game, int x, int y, int color)
 {
-	for (int i = 0; i < game->mini_map_tile; i++) {
-				for (int j = 0; j < game->mini_map_tile; j++) {
-					int px = x * game->mini_map_tile + i;
-					int py = y * game->mini_map_tile + j;
+	for (int i = 0; i < TILE_SIZE; i++) {
+				for (int j = 0; j < TILE_SIZE; j++) {
+					int px = x * TILE_SIZE + i;
+					int py = y * TILE_SIZE + j;
 					if (px < game->win_width && py < game->win_height) {
 						mlx_put_pixel(game->img, px, py, color);
 					}
@@ -112,6 +113,6 @@ void	init_map(t_game *game)
 void	draw_map(t_game *game)
 {
 	init_map(game);
-	castAllRays(game);
+	cast_all_rays(game);
 	draw_player(game);
 }

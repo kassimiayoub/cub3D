@@ -6,7 +6,7 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:16:14 by iaskour           #+#    #+#             */
-/*   Updated: 2025/09/17 11:23:39 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/09/18 10:25:43 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	check_for_collision(t_game *game, int newPlayerX, int newPlayerY)
 	int	map_x;
 	int	map_y;
 
-	map_x = newPlayerX / game->mini_map_tile;
-	map_y = newPlayerY / game->mini_map_tile;
+	map_x = newPlayerX / TILE_SIZE;
+	map_y = newPlayerY / TILE_SIZE;
 	if (map_x < 0 || map_x >= game->m_width
 		|| map_y < 0 || map_y >= game->m_height)
 		return (1);
@@ -46,8 +46,8 @@ int	is_wall(t_game *game, float x, float y)
 	int	map_x;
 	int	map_y;
 
-	map_x = (int)(x / game->mini_map_tile);
-	map_y = (int)(y / game->mini_map_tile);
+	map_x = (int)(x / TILE_SIZE);
+	map_y = (int)(y / TILE_SIZE);
 	if (map_x < 0 || map_x >= game->m_width
 		|| map_y < 0 || map_y >= game->m_height)
 		return (1);
