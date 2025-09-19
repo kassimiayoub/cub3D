@@ -6,7 +6,7 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 08:22:33 by iaskour           #+#    #+#             */
-/*   Updated: 2025/09/17 08:58:59 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/09/19 10:05:08 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,21 @@ void	draw_line(void *win, t_line line)
 
 	line_v.dx = line.x2 - line.x1;
 	line_v.dy = line.y2 - line.y1;
-	line_v.steps = abs(line_v.dx) > abs(line_v.dy) ? abs(line_v.dx) : abs(line_v.dy);
+	line_v.steps = abs(line_v.dy);
+	if (abs(line_v.dx) > abs(line_v.dy))
+		line_v.steps = abs(line_v.dx);
 	i = 0;
 	if (line_v.steps == 0)
 	{
 		mlx_put_pixel(win, line.x1, line.y1, line.color);
-		return;
+		return ;
 	}
 	line_v.x = line.x1;
 	line_v.y = line.y1;
 	while (i <= line_v.steps)
 	{
-		if (round(line_v.x) >= 0 && round(line_v.x) < 800 && round(line_v.y) >= 0 && round(line_v.y) < 600)
+		if (round(line_v.x) >= 0 && round(line_v.x) < 800
+			&& round(line_v.y) >= 0 && round(line_v.y) < 600)
 			mlx_put_pixel(win, round(line_v.x), round(line_v.y), line.color);
 		line_v.x += line_v.dx / (float)line_v.steps;
 		line_v.y += line_v.dy / (float)line_v.steps;
@@ -56,7 +59,7 @@ void	draw_all_lines(t_game *game)
 			line.y1 = (int)game->player.player_y;
 			line.y2 = (int)game->ray[i].wallHitY;
 			draw_line(game->img, line);
-				rays_drawn++;
+			rays_drawn++;
 		}
 		i++;
 	}
@@ -70,11 +73,13 @@ void	draw_player_direction(t_game *game)
 	t_line		line;
 
 	ray_len = 20;
-	end_x = (int)(game->player.player_x + (cos(game->player.rotationAngle) * ray_len));
-	end_y = (int)(game->player.player_y + (sin(game->player.rotationAngle) * ray_len));
+	end_x = (int)(game->player.player_x
+			+ (cos(game->player.rotationAngle) * ray_len));
+	end_y = (int)(game->player.player_y
+			+ (sin(game->player.rotationAngle) * ray_len));
 	line.color = 0x0000FF;
 	line.x1 = (int)game->player.player_x;
-	line.x2 =  end_x;
+	line.x2 = end_x;
 	line.y1 = (int)game->player.player_y;
 	line.y2 = end_y;
 	draw_line(game->img, line);
@@ -85,19 +90,21 @@ void	draw_player(t_game *game)
 	int			player_size;
 	uint32_t	player_color;
 	t_player_v	player_v;
-	
+
 	player_color = 0x0000FF;
 	player_size = game->player.p_height * game->player.p_width;
 	player_v.i = -player_size;
-	
-	while (player_v.i <= player_size) {
+	while (player_v.i <= player_size)
+	{
 		player_v.j = -player_size;
 		while (player_v.j <= player_size)
 		{
 			player_v.px = (int)game->player.player_x + player_v.i;
 			player_v.py = (int)game->player.player_y + player_v.j;
-			if (player_v.px >= 0 && player_v.px < game->m_width && player_v.py >= 0 && player_v.py < game->m_height)
-				mlx_put_pixel(game->img, player_v.px, player_v.py, player_color);
+			if (player_v.px >= 0 && player_v.px < game->m_width
+				&& player_v.py >= 0 && player_v.py < game->m_height)
+				mlx_put_pixel(game->img, player_v.px,
+					player_v.py, player_color);
 			player_v.j++;
 		}
 		player_v.i++;

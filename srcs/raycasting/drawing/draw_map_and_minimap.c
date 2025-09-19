@@ -6,7 +6,7 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:11:01 by iaskour           #+#    #+#             */
-/*   Updated: 2025/09/18 10:26:55 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/09/19 10:28:54 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,44 +64,62 @@ void draw_mini_map(t_game *game)
 	draw_player(game);
 }
 
-
 void	start_drawing_map(t_game *game, int x, int y, int color)
 {
-	for (int i = 0; i < TILE_SIZE; i++) {
-				for (int j = 0; j < TILE_SIZE; j++) {
-					int px = x * TILE_SIZE + i;
-					int py = y * TILE_SIZE + j;
-					if (px < game->win_width && py < game->win_height) {
-						mlx_put_pixel(game->img, px, py, color);
-					}
-				}
-			}
+	int	i;
+	int	j;
+	int	px;
+	int	py;
+
+	i = 0;
+	while (i < TILE_SIZE)
+	{
+		j = 0;
+		while (j < TILE_SIZE)
+		{
+			px = x * TILE_SIZE + i;
+			py = y * TILE_SIZE + j;
+			if (px < game->win_width && py < game->win_height)
+				mlx_put_pixel(game->img, px, py, color);
+			j++;
+		}
+		i++;
+	}
+}
+
+void	init_player_rotation_angle(t_game *game, int x, int y)
+{
+	init_player_position(game, x, y);
+	game->player.is_init = 1;
+	if (game->map[y][x] == 'N')
+		game->player.rotationAngle = 3 * M_PI / 2;
+	else if (game->map[y][x] == 'S')
+		game->player.rotationAngle = M_PI / 2;
+	else if (game->map[y][x] == 'E')
+		game->player.rotationAngle = 0;
+	else if (game->map[y][x] == 'W')
+		game->player.rotationAngle = M_PI;
 }
 
 void	init_map(t_game *game)
 {
 	int			y;
-	int 		x;
+	int			x;
 	uint32_t	color;
 
 	y = 0;
-	while(y < game->m_height)
+	while (y < game->m_height)
 	{
 		x = 0;
 		while (x < game->m_width)
 		{
 			if (game->map[y][x] == '1')
 				color = 0x000000FF;
-			else if (game->player.is_init == 0 && (game->map[y][x] == 'N' || game->map[y][x] == 'S' || 
-					game->map[y][x] == 'E' || game->map[y][x] == 'W'))
-			{
-				init_player_position(game, x, y);
-				game->player.is_init = 1;
-				if (game->map[y][x] == 'N') game->player.rotationAngle = 3 * M_PI / 2;
-				else if (game->map[y][x] == 'S') game->player.rotationAngle = M_PI / 2;
-				else if (game->map[y][x] == 'E') game->player.rotationAngle = 0;
-				else if (game->map[y][x] == 'W') game->player.rotationAngle = M_PI;
-			} else
+			else if (game->player.is_init == 0 && (game->map[y][x] == 'N'
+				|| game->map[y][x] == 'S'
+				|| game->map[y][x] == 'E' || game->map[y][x] == 'W'))
+				init_player_rotation_angle(game, x, y);
+			else
 				color = 0xFFFFFFFF;
 			start_drawing_map(game, x, y, color);
 			x++;
