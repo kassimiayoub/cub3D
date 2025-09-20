@@ -6,7 +6,7 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 10:38:46 by iaskour           #+#    #+#             */
-/*   Updated: 2025/09/18 10:24:42 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/09/20 10:40:42 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 void	cast_it_horiz(t_game *game, t_horiz horiz, t_ray *ray)
 {
-	while (horiz.maxIterations-- > 0 && horiz.nextHorizTouchX >= 0
-		&& horiz.nextHorizTouchX < (game->m_width * TILE_SIZE)
+	while (horiz.nextHorizTouchX >= 0
+		&& horiz.nextHorizTouchX < game->win_width
 		&& horiz.nextHorizTouchY >= 0
-		&& horiz.nextHorizTouchY < (game->m_height * TILE_SIZE))
+		&& horiz.nextHorizTouchY < game->win_height)
 	{
 		horiz.xToCheck = horiz.nextHorizTouchX;
 		horiz.yToCheck = horiz.nextHorizTouchY;
 		if (ray->isRayFacingUp)
-			horiz.yToCheck = horiz.nextHorizTouchY - 1;
+			horiz.yToCheck -= 1;
 		if (check_for_collision(game, horiz.xToCheck, horiz.yToCheck))
 		{
 			ray->horizWallHitX = horiz.nextHorizTouchX;
@@ -52,7 +52,6 @@ void	init_cast_horiz(t_game *game, t_horiz horiz, t_ray *ray, float rayAngle)
 		horiz.xstep = -horiz.xstep;
 	horiz.nextHorizTouchX = horiz.xintercept;
 	horiz.nextHorizTouchY = horiz.yintercept;
-	horiz.maxIterations = 100;
 	cast_it_horiz(game, horiz, ray);
 }
 

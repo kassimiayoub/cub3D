@@ -6,7 +6,7 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:01:50 by iaskour           #+#    #+#             */
-/*   Updated: 2025/09/18 10:24:46 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/09/20 10:44:19 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	cast_it_vert(t_game *game, t_vert vert, t_ray *ray)
 {
-	while (vert.maxIterations-- > 0 && vert.nextVertTouchX >= 0
-		&& vert.nextVertTouchX < (game->m_width * TILE_SIZE)
+	while (vert.nextVertTouchX >= 0
+		&& vert.nextVertTouchX < game->win_width
 		&& vert.nextVertTouchY >= 0
-		&& vert.nextVertTouchY < (game->m_height * TILE_SIZE))
+		&& vert.nextVertTouchY < game->win_height)
 	{
 		vert.xToCheck = vert.nextVertTouchX;
 		if (ray->isRayFacingLeft)
-			vert.xToCheck = vert.nextVertTouchX - 1;
+			vert.xToCheck -= 1;
 		vert.yToCheck = vert.nextVertTouchY;
 		if (check_for_collision(game, vert.xToCheck, vert.yToCheck))
 		{
@@ -52,7 +52,6 @@ void	init_cast_vert(t_game *game, t_vert vert, t_ray *ray, float rayAngle)
 		vert.ystep = -vert.ystep;
 	vert.nextVertTouchX = vert.xintercept;
 	vert.nextVertTouchY = vert.yintercept;
-	vert.maxIterations = 100;
 	cast_it_vert(game, vert, ray);
 }
 

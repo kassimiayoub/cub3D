@@ -6,7 +6,7 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:07:04 by iaskour           #+#    #+#             */
-/*   Updated: 2025/09/18 10:28:28 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/09/20 09:09:52 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	render(t_game *game)
 	mlx_image_to_window(game->mlx, game->img, 0, 0);
 }
 
-void	update_player(t_game *game, float delta_time)
+void	update_player(t_game *game)
 {
 	float	move_step;
 	float	new_x;
@@ -33,7 +33,7 @@ void	update_player(t_game *game, float delta_time)
 	if (game->player.turnDirection != 0)
 	{
 		game->player.rotationAngle += game->player.turnDirection
-			* game->player.turnSpeed * delta_time;
+			* game->player.turnSpeed;
 		while (game->player.rotationAngle < 0)
 			game->player.rotationAngle += 2 * M_PI;
 		while (game->player.rotationAngle >= 2 * M_PI)
@@ -42,7 +42,7 @@ void	update_player(t_game *game, float delta_time)
 	if (game->player.walkDirection != 0)
 	{
 		move_step = game->player.walkDirection
-			* game->player.walkSpeed * delta_time;
+			* game->player.walkSpeed;
 		new_x = game->player.player_x + cos(game->player.rotationAngle)
 			* move_step;
 		new_y = game->player.player_y + sin(game->player.rotationAngle)
@@ -77,18 +77,10 @@ void	process_input(t_game *game)
 
 void	game_loop(void *param)
 {
-	// long	now;
-	float	delta_time;
 	t_game	*game;
 
 	game = (t_game *)param;
-	// now = get_current_time();
-	// delta_time = (now - game->last_frame_ms) / 1000.0f;
-	// if (delta_time < 0.016f)
-	// 	return ;
-	// game->last_frame_ms = now;
-	delta_time = 0.06;
 	process_input(game);
-	update_player(game, delta_time);
+	update_player(game);
 	render(game);
 }
