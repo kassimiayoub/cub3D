@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utilis_two.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 16:12:04 by aykassim          #+#    #+#             */
-/*   Updated: 2025/08/22 10:38:41 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/09/21 16:21:09 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,14 @@ int	validat_line(t_game **game, char *line)
 		i++;
 	}
 	i = 0;
-	// while (line[i])
-	// {
-	// 	if (line[i] != '1' && line[i] != '0' && line[i] != 'N'
-	// 		&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W'
-	// 		&& line[i] != ' ' && line[i] != '\n')
-	// 		return (0);
-	// 	i++;
-	// }
+	while (line[i])
+	{
+		if (line[i] != '1' && line[i] != '0' && line[i] != 'N'
+			&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W'
+			&& line[i] != ' ' && line[i] != '\n')
+			return (0);
+		i++;
+	}
 	return (1);
 }
 

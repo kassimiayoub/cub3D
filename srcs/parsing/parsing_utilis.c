@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utilis.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:02:55 by aykassim          #+#    #+#             */
-/*   Updated: 2025/08/22 08:42:19 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/09/21 16:32:04 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	assis_func(t_game **game, t_fill_map **tf)
 {
 	close((*tf)->fd);
-	if ((*tf)->j >= 7 || (*tf)->cm == 0)
+	if ((*tf)->j != 6 || (*tf)->j == 0 || (*tf)->cm == 0)
 		return (0);
 	(*game)->map[(*tf)->i] = NULL;
 	(*game)->paths[(*tf)->j] = NULL;
@@ -53,8 +53,8 @@ int	fill_map_content(t_game **game, char *map)
 
 int	all_validate_element(t_game *game, char *map)
 {
-	// if (game->is_player != 1)
-	// 	return (printf("asdfasfadsfadsfds"), 0);
+	if (game->is_player != 1)
+		return (printf("asdfasfadsfadsfds"), 0);
 	if (!fill_map_content(&game, map))
 		return (printf("Erreur (fill_map_content!!!)\n"), 0);
 	if (!detect_map_is_valid(game))

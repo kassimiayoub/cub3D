@@ -106,7 +106,8 @@ typedef struct s_player {
 		 
 		 
 typedef struct s_game { 
-	t_gc *gc; char **map; 
+	t_gc *gc;
+	char **map; 
 	char **paths; 
 	char *no_path; 
 	char *so_path; 
