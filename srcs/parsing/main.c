@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:15:21 by aykassim          #+#    #+#             */
-/*   Updated: 2025/09/11 11:48:24 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/09/21 16:35:42 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ int	main(int ac, char **av)
 	// int		i;
 
 	// // atexit(f);
-	// if (ac != 2)
-	// 	return (printf("Erreurn (nbr param!!)\n"), 1);
-	// if (!map_extension(av[1]))
-	// 	return (printf("Erreurn (extension nnot .cub!!)\n"), 1);
+	if (ac != 2)
+		return (printf("Erreurn (nbr param!!)\n"), 1);
+	if (!map_extension(av[1]) )
+		return (printf("Erreurn (extension nnot .cub!!)\n"), 1);
 	game = malloc(sizeof(t_game));
 	if (!game)
 		return (printf("error allocating game\n"), 0);
