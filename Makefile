@@ -10,17 +10,27 @@ CC = cc
 # FRAMEWORKS = -framework Cocoa -framework OpenGL -framework IOKit -ldl -pthread -lm -framework CoreVideo
 
 # Compiler flags
+# FLAGS = -Wall -Werror -Wextra \
+#         -Iincludes \
+#         -I$(HOME)/Desktop/MLX42_install/include \
+#         -I$(HOME)/Desktop/glfw_install/include \
+#         -fsanitize=address -g
+
+# # Libraries
+# LIBS = -L$(HOME)/Desktop/MLX42_install/lib -lmlx42 \
+#        -L$(HOME)/Desktop/glfw_install/lib -lglfw \
+#        -ldl -lm -pthread
+
+#foxthrouth element
+###################################################
 FLAGS = -Wall -Werror -Wextra \
         -Iincludes \
-        -I$(HOME)/Desktop/MLX42_install/include \
-        -I$(HOME)/Desktop/glfw_install/include \
-        -fsanitize=address -g
-
+        -I$(HOME)/MLX42/include \
+        #-fsanitize=address -g
 # Libraries
-LIBS = -L$(HOME)/Desktop/MLX42_install/lib -lmlx42 \
-       -L$(HOME)/Desktop/glfw_install/lib -lglfw \
-       -ldl -lm -pthread
-
+LIBS = -L$(HOME)/MLX42/build -lmlx42 \
+       -ldl -lm -pthread -lglfw
+###################################################
 
 NAME = cub3D
 
@@ -32,7 +42,7 @@ SRCP = srcs/parsing/main.c srcs/parsing/parsing_utilis.c srcs/parsing/parsing_ut
 	srcs/parsing/parsing_utilis_two.c srcs/parsing/parsing_utilis_three.c \
 	lib/ft_isalnum.c lib/ft_split.c lib/ft_strcmp.c lib/ft_isdigit.c lib/ft_atoi.c\
 	lib/garbage_collector/gc_malloc.c lib/garbage_collector/gc_exist.c \
-	lib/garbage_collector/gc_clear.c \
+	lib/garbage_collector/gc_clear.c srcs/textures_work/handle_textures.c
 
 
 SRCSGNL = lib/get_next_line/get_next_line.c lib/get_next_line/get_next_line_utils.c

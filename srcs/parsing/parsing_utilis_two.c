@@ -6,7 +6,7 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 16:12:04 by aykassim          #+#    #+#             */
-/*   Updated: 2025/09/21 16:21:09 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/09/23 11:27:59 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,31 @@ int	check_first_args(t_game **game, char *str, char *str1)
 	}
 	else
 		return (0);
+	return (1);
+}
+
+int	convert_color_to_rgb(t_game **game)
+{
+	char	**f_colors;
+	char	**c_colors;
+	int		r_color;
+	int		g_color;
+	int		b_color;
+
+	f_colors = ft_split((*game)->gc, (*game)->f_color, ',');
+	if (!f_colors)
+		return (0);
+	r_color = ft_atoi(f_colors[0]);
+	g_color = ft_atoi(f_colors[1]);
+	b_color = ft_atoi(f_colors[2]);
+	(*game)->floor_color = (r_color << 24) | (g_color << 16) | (b_color << 8) | 255;
+	c_colors = ft_split((*game)->gc, (*game)->c_color, ',');
+	if (!c_colors)
+		return (0);
+	r_color = ft_atoi(c_colors[0]);
+	g_color = ft_atoi(c_colors[1]);
+	b_color = ft_atoi(c_colors[2]);
+	(*game)->ceil_color = (r_color << 24) | (g_color << 16) | (b_color << 8) | 255;
 	return (1);
 }
 

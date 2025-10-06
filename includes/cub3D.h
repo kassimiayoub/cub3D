@@ -16,10 +16,10 @@
 #define NUM_RAYS 800
 
 
-#define CEILING_COLOR 0x87CEEBFF
-#define FLOOR_COLOR 0x8B4513FF
-#define WALL_COLOR_NR 0x808080FF
-#define WALL_COLOR_EW 0x606060FF
+// #define CEILING_COLOR 0x87CEEBFF
+// #define FLOOR_COLOR 0x8B4513FF
+// #define WALL_COLOR_NR 0x808080FF
+// #define WALL_COLOR_EW 0x606060FF
 
 
 typedef struct s_horiz_var{
@@ -115,6 +115,12 @@ typedef struct s_game {
 	char *ea_path; 
 	char *f_color; 
 	char *c_color; 
+	uint32_t	ceil_color;
+	uint32_t	floor_color;
+	mlx_image_t	*no_texture;
+	mlx_image_t	*so_texture;
+	mlx_image_t	*we_texture;
+	mlx_image_t	*ea_texture;
 	int is_player; 
 	int m_height;
 	int m_width;
@@ -173,6 +179,7 @@ int		count_nbr_line(char **map);
 int		validate_color(t_gc *gc, char *color);
 int		validat_line(t_game **game, char *line);
 int		validate_path(t_game **game);
+int		convert_color_to_rgb(t_game **game);
 
 //parsing_utilis_Three
 int		detect_map_is_valid(t_game *game);
@@ -180,13 +187,14 @@ int		initial_fillmap(t_game **game, char *map, t_fill_map **tf);
 int		add_line_path(t_game **game, char *line, int j);
 int		add_line_map(t_game **game, char *line, int *cm, int *i);
 
-
+void	draw_3D_textures(t_game *game);
+int		load_images(t_game **game);
 
 
 // recasting
 int		init_cub_window(t_game *game);
-void	draw_3D_wall(t_game *game);
-void	init(t_game *game);
+// void	draw_3D_wall(t_game *game);
+int	init(t_game **game);
 long	get_current_time(void);
 int		check_for_collision(t_game *game, int newPlayerX, int newPlayerY);
 float	distance_between_points(float x1, float  y1, float x2, float y2);
