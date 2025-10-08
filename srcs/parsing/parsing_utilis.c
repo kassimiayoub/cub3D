@@ -6,7 +6,7 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:02:55 by aykassim          #+#    #+#             */
-/*   Updated: 2025/09/21 16:32:04 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/10/04 12:51:13 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	all_validate_element(t_game *game, char *map)
 		return (printf("Erreur (detect_map_is_valid!!!)\n"), 0);
 	if (!validate_path(&game))
 		return (printf("Erreur (validate_path!!!)\n"), 0);
+	if (!convert_color_to_rgb(&game))
+		return (printf("Erreur (color rgb!!!)\n"), 0);
 	return (1);
 }
 

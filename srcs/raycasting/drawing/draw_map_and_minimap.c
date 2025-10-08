@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map_and_minimap.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:11:01 by iaskour           #+#    #+#             */
-/*   Updated: 2025/09/19 10:28:54 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/10/06 14:06:05 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void	init_map(t_game *game)
 
 void	draw_map(t_game *game)
 {
+	
 	init_map(game);
 	cast_all_rays(game);
 	draw_player(game);
