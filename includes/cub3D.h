@@ -13,7 +13,7 @@
 #define TILE_SIZE 32
 #define MINI_MAP_VECTOR 1
 #define FOV_ANGLE (60 * M_PI / 180)
-#define NUM_RAYS 800
+// #define NUM_RAYS 800
 
 
 // #define CEILING_COLOR 0x87CEEBFF

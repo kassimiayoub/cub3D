@@ -58,7 +58,6 @@ OBJSGNL = $(SRCSGNL:%.c=%.o)
 
 OBJR = $(SRCR:%.c=%.o)
 
-
 all: $(NAME)
 
 $(NAME): $(OBJP) $(OBJR) $(OBJSGNL)

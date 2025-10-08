@@ -6,7 +6,7 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:17:03 by iaskour           #+#    #+#             */
-/*   Updated: 2025/10/04 12:54:15 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/10/07 15:15:13 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	init_ray(t_game **game)
 	int	i;
 
 	i = 0;
-	while (i < NUM_RAYS)
+	while (i < (*game)->win_width)
 	{
 		(*game)->ray[i].distance = FLT_MAX;
 		(*game)->ray[i].wallHitX = 0;
@@ -41,7 +41,7 @@ int	init(t_game **game)
 	(*game)->mini_map_width = (int)((*game)->win_width * MINI_MAP_VECTOR);
 	(*game)->mini_map_height = (int)((*game)->win_height * MINI_MAP_VECTOR);
 	(*game)->mini_map_tile = (int)(TILE_SIZE * MINI_MAP_VECTOR);
-	(*game)->ray = gc_malloc((*game)->gc, sizeof(t_ray) * NUM_RAYS);
+	(*game)->ray = gc_malloc((*game)->gc, sizeof(t_ray) * (*game)->win_width);
 	(*game)->player.player_x = 0;
 	(*game)->player.player_y = 0;
 	(*game)->player.p_width = 2;
