@@ -6,7 +6,7 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 16:12:04 by aykassim          #+#    #+#             */
-/*   Updated: 2025/09/23 11:27:59 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/10/18 12:37:16 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,31 +135,15 @@ int	convert_color_to_rgb(t_game **game)
 	r_color = ft_atoi(f_colors[0]);
 	g_color = ft_atoi(f_colors[1]);
 	b_color = ft_atoi(f_colors[2]);
-	(*game)->floor_color = (r_color << 24) | (g_color << 16) | (b_color << 8) | 255;
+	(*game)->floor_color = (r_color << 24)
+		| (g_color << 16) | (b_color << 8) | 255;
 	c_colors = ft_split((*game)->gc, (*game)->c_color, ',');
 	if (!c_colors)
 		return (0);
 	r_color = ft_atoi(c_colors[0]);
 	g_color = ft_atoi(c_colors[1]);
 	b_color = ft_atoi(c_colors[2]);
-	(*game)->ceil_color = (r_color << 24) | (g_color << 16) | (b_color << 8) | 255;
-	return (1);
-}
-
-int	validate_path(t_game **game)
-{
-	char	**res;
-	int		i;
-
-	i = 0;
-	while ((*game)->paths[i])
-	{
-		res = ft_split((*game)->gc, (*game)->paths[i], ' ');
-		if (count_nbr_line(res) != 2)
-			return (0);
-		if (!check_first_args(game, res[0], res[1]))
-			return (0);
-		i++;
-	}
+	(*game)->ceil_color = (r_color << 24)
+		| (g_color << 16) | (b_color << 8) | 255;
 	return (1);
 }
