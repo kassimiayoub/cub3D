@@ -6,7 +6,7 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:17:03 by iaskour           #+#    #+#             */
-/*   Updated: 2025/10/07 15:15:13 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/10/08 14:43:24 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	init_player_position(t_game *game, int x, int y)
 			+ (TILE_SIZE / 2);
 		game->player.player_y = (y * TILE_SIZE)
 			+ (TILE_SIZE / 2);
-		game->player.walkSpeed = 60.0f * 0.01;
-		game->player.turnSpeed = 2.0f * 0.01;
+		game->player.walkSpeed = 60.0f * 0.03;
+		game->player.turnSpeed = 2.0f * 0.03;
 		game->player.walkDirection = 0;
 		game->player.turnDirection = 0;
 	}

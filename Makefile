@@ -42,7 +42,7 @@ SRCP = srcs/parsing/main.c srcs/parsing/parsing_utilis.c srcs/parsing/parsing_ut
 	srcs/parsing/parsing_utilis_two.c srcs/parsing/parsing_utilis_three.c \
 	lib/ft_isalnum.c lib/ft_split.c lib/ft_strcmp.c lib/ft_isdigit.c lib/ft_atoi.c\
 	lib/garbage_collector/gc_malloc.c lib/garbage_collector/gc_exist.c \
-	lib/garbage_collector/gc_clear.c srcs/textures_work/handle_textures.c
+	lib/garbage_collector/gc_clear.c srcs/textures_work/handle_textures.c srcs/textures_work/handle_textures_utilis.c 
 
 
 SRCSGNL = lib/get_next_line/get_next_line.c lib/get_next_line/get_next_line_utils.c

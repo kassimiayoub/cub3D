@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:09:06 by aykassim          #+#    #+#             */
-/*   Updated: 2025/08/24 15:07:41 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/10/18 12:39:23 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <stdlib.h>
 # include <limits.h>
 # include <sys/time.h>
-
 
 typedef struct s_gc_node
 {
