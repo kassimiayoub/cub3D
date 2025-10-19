@@ -6,7 +6,7 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:02:55 by aykassim          #+#    #+#             */
-/*   Updated: 2025/10/04 12:51:13 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/10/18 13:27:49 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,17 @@ int	fill_map_content(t_game **game, char *map)
 int	all_validate_element(t_game *game, char *map)
 {
 	if (game->is_player != 1)
-		return (printf("asdfasfadsfadsfds"), 0);
+		return (printf("Error:\n More than one player!!"), 0);
 	if (!fill_map_content(&game, map))
-		return (printf("Erreur (fill_map_content!!!)\n"), 0);
+		return (printf("Error:\n Map caracters invalid!!\n"), 0);
 	if (!detect_map_is_valid(game))
-		return (printf("Erreur (detect_map_is_valid!!!)\n"), 0);
+		return (printf("Error:\n Map walls invalid!!\n"), 0);
 	if (!validate_path(&game))
-		return (printf("Erreur (validate_path!!!)\n"), 0);
+		return (printf("Error:\n  The path not there!!\n"), 0);
 	if (!convert_color_to_rgb(&game))
-		return (printf("Erreur (color rgb!!!)\n"), 0);
+		return (printf("Error:\n The colors Problem!!\n"), 0);
+	if (!check_all_pathimg(game))
+		return (printf("Error:\n The images path not valid\n"), 0);
 	return (1);
 }
 
@@ -75,7 +77,7 @@ int	read_map(t_game **game, char *map)
 	flag = 0;
 	fd = open(map, O_RDONLY);
 	if (fd < 0)
-		return (printf("Erreur (open map!!!)\n"), 0);
+		return (printf("Error:\n open map!!\n"), 0);
 	line = get_next_line((*game)->gc, fd);
 	while (line)
 	{
@@ -84,12 +86,29 @@ int	read_map(t_game **game, char *map)
 		if (flag)
 		{
 			if (!validat_line(game, line))
-				return (printf("am over her 2"), close(fd), 0);
+				return (close(fd), 0);
 		}
 		line = get_next_line((*game)->gc, fd);
 	}
 	close(fd);
 	if (!all_validate_element(*game, map))
-		return (printf("am over her 1"), 0);
+		return (0);
+	return (1);
+}
+int	validate_path(t_game **game)
+{
+	char	**res;
+	int		i;
+
+	i = 0;
+	while ((*game)->paths[i])
+	{
+		res = ft_split((*game)->gc, (*game)->paths[i], ' ');
+		if (count_nbr_line(res) != 2)
+			return (0);
+		if (!check_first_args(game, res[0], res[1]))
+			return (0);
+		i++;
+	}
 	return (1);
 }

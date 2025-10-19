@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_line_and_player.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 08:22:33 by iaskour           #+#    #+#             */
-/*   Updated: 2025/09/19 10:05:08 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/10/07 15:15:31 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	draw_all_lines(t_game *game)
 
 	rays_drawn = 0;
 	i = 0;
-	while (i < NUM_RAYS)
+	while (i < game->win_width)
 	{
 		if (game->ray[i].distance < FLT_MAX)
 		{
