@@ -6,7 +6,7 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:02:55 by aykassim          #+#    #+#             */
-/*   Updated: 2025/10/18 13:27:49 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/10/19 13:29:26 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ int	read_map(t_game **game, char *map)
 		if (flag)
 		{
 			if (!validat_line(game, line))
-				return (close(fd), 0);
+				return (printf("Error:\n Map caracters invalid!!\n"), 
+					close(fd), 0);
 		}
 		line = get_next_line((*game)->gc, fd);
 	}

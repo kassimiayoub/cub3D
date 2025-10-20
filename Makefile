@@ -26,7 +26,7 @@ CC = cc
 FLAGS = -Wall -Werror -Wextra \
         -Iincludes \
         -I$(HOME)/MLX42/include \
-        #-fsanitize=address -g
+#         -fsanitize=address -g
 # Libraries
 LIBS = -L$(HOME)/MLX42/build -lmlx42 \
        -ldl -lm -pthread -lglfw
