@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map_and_minimap.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:11:01 by iaskour           #+#    #+#             */
-/*   Updated: 2025/10/06 14:06:05 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:38:45 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void draw_mini_map(t_game *game)
 	cast_all_rays(game);
 	draw_all_lines(game);
 	draw_player_direction(game);
-	draw_player(game);
 }
 
 void	start_drawing_map(t_game *game, int x, int y, int color)
@@ -105,7 +104,6 @@ void	init_map(t_game *game)
 {
 	int			y;
 	int			x;
-	uint32_t	color;
 
 	y = 0;
 	while (y < game->m_height)
@@ -113,15 +111,10 @@ void	init_map(t_game *game)
 		x = 0;
 		while (x < game->m_width)
 		{
-			if (game->map[y][x] == '1')
-				color = 0x000000FF;
-			else if (game->player.is_init == 0 && (game->map[y][x] == 'N'
+			if (game->player.is_init == 0 && (game->map[y][x] == 'N'
 				|| game->map[y][x] == 'S'
 				|| game->map[y][x] == 'E' || game->map[y][x] == 'W'))
 				init_player_rotation_angle(game, x, y);
-			else
-				color = 0xFFFFFFFF;
-			start_drawing_map(game, x, y, color);
 			x++;
 		}
 		y++;
@@ -130,8 +123,5 @@ void	init_map(t_game *game)
 
 void	draw_map(t_game *game)
 {
-	
-	init_map(game);
 	cast_all_rays(game);
-	draw_player(game);
 }

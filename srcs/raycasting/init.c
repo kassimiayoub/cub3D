@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:17:03 by iaskour           #+#    #+#             */
-/*   Updated: 2025/10/08 14:43:24 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:35:10 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	init(t_game **game)
 	(*game)->player.player_y = 0;
 	(*game)->player.p_width = 2;
 	(*game)->player.p_height = 2;
-	(*game)->last_frame_ms = get_current_time();
+	(*game)->is_game_started = 0;
 	if (!(*game)->ray)
 		return (0);
 	init_ray(game);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_textures.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 12:51:56 by aykassim          #+#    #+#             */
-/*   Updated: 2025/10/18 16:07:48 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:45:56 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,14 @@ int	count_ytex(int wall_top, int wall_bottom, int tex_height, int y)
 	float	tex_pos;
 
 	wall_height = wall_bottom - wall_top;
+	if (wall_height <= 0)
+		return (0);
 	tex_pos = (y - wall_top) / wall_height;
 	ytex = (int)(tex_pos * tex_height);
+	if (ytex >= tex_height)
+		ytex = tex_height - 1;
+	if (ytex < 0)
+		ytex = 0;
 	return (ytex);
 }
 

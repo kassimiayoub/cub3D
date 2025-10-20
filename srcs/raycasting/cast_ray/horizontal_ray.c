@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   horizontal_ray.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 10:38:46 by iaskour           #+#    #+#             */
-/*   Updated: 2025/10/07 17:46:52 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/10/20 13:27:21 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	cast_it_horiz(t_game *game, t_horiz horiz, t_ray *ray)
 	{
 		horiz.xToCheck = horiz.nextHorizTouchX;
 		horiz.yToCheck = horiz.nextHorizTouchY;
+		// come back later
 		if (ray->isRayFacingUp)
 			horiz.yToCheck -= 1;
 		if (check_for_collision(game, horiz.xToCheck, horiz.yToCheck))
@@ -46,6 +47,7 @@ void	init_cast_horiz(t_game *game, t_horiz horiz, t_ray *ray, float rayAngle)
 		horiz.ystep = -TILE_SIZE;
 	else
 		horiz.ystep = TILE_SIZE;
+	// come back later over here
 	horiz.xstep = horiz.ystep / tan(rayAngle);
 	if ((ray->isRayFacingLeft && horiz.xstep > 0)
 		|| (ray->isRayFacingRight && horiz.xstep < 0))

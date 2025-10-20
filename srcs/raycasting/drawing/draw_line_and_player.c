@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_line_and_player.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 08:22:33 by iaskour           #+#    #+#             */
-/*   Updated: 2025/10/07 15:15:31 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/10/20 09:35:15 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,30 +83,4 @@ void	draw_player_direction(t_game *game)
 	line.y1 = (int)game->player.player_y;
 	line.y2 = end_y;
 	draw_line(game->img, line);
-}
-
-void	draw_player(t_game *game)
-{
-	int			player_size;
-	uint32_t	player_color;
-	t_player_v	player_v;
-
-	player_color = 0x0000FF;
-	player_size = game->player.p_height * game->player.p_width;
-	player_v.i = -player_size;
-	while (player_v.i <= player_size)
-	{
-		player_v.j = -player_size;
-		while (player_v.j <= player_size)
-		{
-			player_v.px = (int)game->player.player_x + player_v.i;
-			player_v.py = (int)game->player.player_y + player_v.j;
-			if (player_v.px >= 0 && player_v.px < game->m_width
-				&& player_v.py >= 0 && player_v.py < game->m_height)
-				mlx_put_pixel(game->img, player_v.px,
-					player_v.py, player_color);
-			player_v.j++;
-		}
-		player_v.i++;
-	}
 }

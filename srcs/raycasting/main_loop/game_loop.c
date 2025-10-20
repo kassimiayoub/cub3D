@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:07:04 by iaskour           #+#    #+#             */
-/*   Updated: 2025/10/06 14:06:08 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:38:58 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	game_loop(void *param)
 	t_game	*game;
 
 	game = (t_game *)param;
+	
+	init_map(game);
 	process_input(game);
 	update_player(game);
 	render(game);

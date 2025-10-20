@@ -129,7 +129,6 @@ typedef struct s_game
 	void		*win;
 	void		*mlx;
 	mlx_image_t	*img;
-	long		last_frame_ms;
 	t_player	player;
 	t_ray		*ray;
 	int			isRayFacingDown;
@@ -138,6 +137,7 @@ typedef struct s_game
 	int			isRayFacingLeft;
 	float		horizHitDistance;
 	float		vertHitDistance;
+	int			is_game_started;
 }	t_game;
 
 typedef struct s_fill_map
@@ -191,7 +191,6 @@ void		draw_3D_textures(t_game *game);
 int			load_images(t_game **game);
 int			check_all_pathimg(t_game *game);
 uint32_t	ft_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
-int			init_cub_window(t_game *game);
 int			init(t_game **game);
 long		get_current_time(void);
 int			check_for_collision(t_game *game, int newPlayerX, int newPlayerY);
@@ -201,7 +200,6 @@ float		normalize_angle(float rayAngle);
 void		draw_line(void *win, t_line line);
 void		draw_all_lines(t_game *game);
 void		draw_player_direction(t_game *game);
-void		draw_player(t_game *game);
 void		init_player_position(t_game *game, int x, int y);
 void		cast_horizontal_ray(t_game *game, float rayAngle, t_ray *ray);
 void		cast_vertical_ray(t_game *game, float rayAngle, t_ray *ray);
@@ -210,5 +208,6 @@ void		draw_mini_map(t_game *game);
 void		game_loop(void *param);
 void		cast_all_rays(t_game *game);
 void		draw_map(t_game *game);
+void		init_map(t_game *game);
 
 #endif
