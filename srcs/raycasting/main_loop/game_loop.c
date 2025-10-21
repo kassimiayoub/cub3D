@@ -6,7 +6,7 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:07:04 by iaskour           #+#    #+#             */
-/*   Updated: 2025/10/06 14:06:08 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/10/21 10:53:38 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	render(t_game *game)
 {
     draw_map(game);
-    draw_3D_textures(game);
+    draw_3d_textures(game);
 }
 
 void	update_player(t_game *game)

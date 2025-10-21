@@ -187,7 +187,7 @@ int			detect_map_is_valid(t_game *game);
 int			initial_fillmap(t_game **game, char *map, t_fill_map **tf);
 int			add_line_path(t_game **game, char *line, int j);
 int			add_line_map(t_game **game, char *line, int *cm, int *i);
-void		draw_3D_textures(t_game *game);
+void		draw_3d_textures(t_game *game);
 int			load_images(t_game **game);
 int			check_all_pathimg(t_game *game);
 uint32_t	ft_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
