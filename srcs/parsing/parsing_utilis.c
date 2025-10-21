@@ -6,7 +6,7 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:02:55 by aykassim          #+#    #+#             */
-/*   Updated: 2025/10/18 13:27:49 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/10/21 10:51:49 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	read_map(t_game **game, char *map)
 		return (0);
 	return (1);
 }
+
 int	validate_path(t_game **game)
 {
 	char	**res;
