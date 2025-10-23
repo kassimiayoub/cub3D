@@ -6,7 +6,7 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 12:51:56 by aykassim          #+#    #+#             */
-/*   Updated: 2025/10/18 16:07:48 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/10/22 19:41:26 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	draw_walls(t_game *game, t_draw_text *draw)
 		{
 			draw->ytex = count_ytex(draw->wall_top, draw->wall_bottom,
 					draw->texture->height, draw->y);
+			if (draw->ytex >= (int)draw->texture->height)
+				draw->ytex = draw->texture->height - 1;
 			draw->idx = (draw->ytex * draw->texture->width + draw->xtex) * 4;
 			draw->color = ft_rgba(draw->texture->pixels[draw->idx],
 					draw->texture->pixels[draw->idx + 1],
@@ -82,7 +84,7 @@ void	draw_walls(t_game *game, t_draw_text *draw)
 	}
 }
 
-void	draw_3D_textures(t_game *game)
+void	draw_3d_textures(t_game *game)
 {
 	t_draw_text	draw;
 
@@ -99,6 +101,8 @@ void	draw_3D_textures(t_game *game)
 			draw.wall_bottom = game->win_height - 1;
 		draw.texture = detect_texture(game, draw.ray);
 		draw.xtex = count_xtex(draw.ray, draw.texture->width);
+		if (draw.xtex >= (int)draw.texture->width)
+			draw.xtex = draw.texture->width - 1;
 		draw_walls(game, &draw);
 		draw.x++;
 	}
