@@ -6,7 +6,7 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:15:21 by aykassim          #+#    #+#             */
-/*   Updated: 2025/10/18 14:00:31 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/10/19 17:10:36 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,8 @@ int	main(int ac, char **av)
 {
 	t_game	*game;
 
-	if (ac != 2)
-		return (printf("Error:\n Nbr param!!\n"), 1);
-	if (!map_extension(av[1]))
-		return (printf("Error:\n Extension not .cub!!\n"), 1);
+	if (ac != 2 || !map_extension(av[1]))
+		return (printf("Error:\n Nbr param || Extension not .cub!!\n"), 1);
 	game = malloc(sizeof(t_game));
 	if (!game || !allocation_initial_struct(&game))
 		return (printf("Error:\n Allocation fail!!)\n"), 1);
@@ -60,7 +58,7 @@ int	main(int ac, char **av)
 		return (printf("Error:\n Init!!\n"), free_all(game), 1);
 	game->mlx = mlx_init(game->win_width, game->win_height, "cub3D", false);
 	if (!game->mlx)
-		return (0);
+		return (1);
 	game->img = mlx_new_image(game->mlx,
 			game->win_width, game->win_height);
 	if (!game->img)
@@ -71,5 +69,6 @@ int	main(int ac, char **av)
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);
 	mlx_terminate(game->mlx);
+	free_all(game);
 	return (0);
 }
