@@ -25,11 +25,15 @@ CC = cc
 ###################################################
 FLAGS = -Wall -Werror -Wextra \
         -Iincludes \
-        -I$(HOME)/MLX42/include \
+        -I$(HOME)/Desktop/MLX42/include \
+		-I$(HOME)/Desktop/glfw/include \
+        -fsanitize=address -g \
+        -I$(HOME)/MLX42/include 
 		#-fsanitize=address -g
 # Libraries
-LIBS = -L$(HOME)/MLX42/build -lmlx42 \
-       -ldl -lm -pthread -lglfw
+LIBS = -L$(HOME)/Desktop/MLX42/build -lmlx42 \
+       -L$(HOME)/Desktop/glfw/build/src -lglfw3 \
+       -ldl -lm -pthread
 ###################################################
 
 NAME = cub3D
@@ -47,8 +51,9 @@ SRCP = srcs/parsing/main.c srcs/parsing/parsing_utilis.c srcs/parsing/parsing_ut
 
 SRCSGNL = lib/get_next_line/get_next_line.c lib/get_next_line/get_next_line_utils.c
 
-SRCR = srcs/raycasting/init.c srcs/raycasting/raycasting_main.c srcs/raycasting/utils.c \
+SRCR = srcs/raycasting/init.c srcs/raycasting/utils.c \
 	srcs/raycasting/cast_ray/cast_all_rays.c srcs/raycasting/cast_ray/horizontal_ray.c srcs/raycasting/cast_ray/vertical_ray.c \
+	srcs/raycasting/main_loop/game_loop.c \
 	srcs/raycasting/drawing/draw_line_and_player.c srcs/raycasting/drawing/draw_map_and_minimap.c \
 	srcs/raycasting/main_loop/game_loop.c
 

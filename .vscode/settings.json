@@ -1,13 +1,8 @@
 {
-	"files.associations": {
-		"get_next_line.h": "c",
-		"sstream": "c",
-		"locale": "c",
-		"cub3d.h": "c",
-		"iterator": "c",
-		"float.h": "c",
-		"math.h": "c",
-		"cstdint": "c"
-	},
-	"files.saveConflictResolution": "overwriteFileOnDisk"
+    "files.associations": {
+        "unordered_map": "c",
+        "istream": "c",
+        "numeric": "c",
+        "ostream": "c"
+    }
 }

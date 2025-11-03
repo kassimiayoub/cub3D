@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3D.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/03 10:26:53 by iaskour           #+#    #+#             */
+/*   Updated: 2025/11/03 11:04:48 by iaskour          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -10,8 +22,7 @@
 # include <float.h>
 
 # define TILE_SIZE 32
-# define MINI_MAP_VECTOR 1
-# define FOV_ANGLE (60 * M_PI / 180)
+# define FOV_ANGLE 1.0471975512
 
 typedef struct s_horiz_var
 {
@@ -19,11 +30,11 @@ typedef struct s_horiz_var
 	float	yintercept;
 	float	xstep;
 	float	ystep;
-	float	nextHorizTouchX;
-	float	nextHorizTouchY;
-	float	xToCheck;
-	float	yToCheck;
-	int		maxIterations;
+	float	next_horiz_touchx;
+	float	next_horiz_touchy;
+	float	x_to_check;
+	float	y_to_check;
+	int		max_iterations;
 }	t_horiz;
 
 typedef struct s_vert_var
@@ -32,11 +43,11 @@ typedef struct s_vert_var
 	float	yintercept;
 	float	xstep;
 	float	ystep;
-	float	nextVertTouchX;
-	float	nextVertTouchY;
-	float	xToCheck;
-	float	yToCheck;
-	int		maxIterations;
+	float	next_vert_touchx;
+	float	next_vert_touchy;
+	float	x_to_check;
+	float	y_to_check;
+	int		max_iterations;
 }	t_vert;
 
 typedef struct s_player_var
@@ -68,23 +79,20 @@ typedef struct s_line_v
 typedef struct s_ray
 {
 	float	ray_angle;
-	float	wallHitX;
-	float	wallHitY;
+	float	wall_hitx;
+	float	wall_hity;
 	float	distance;
-	int		wallHitHorizontal;
-	int		wallHitVertical;
-	int		isRayFacingUp;
-	int		isRayFacingDown;
-	int		isRayFacingLeft;
-	int		isRayFacingRight;
-	int		wasHitVertical;
-	int		wallHitContent;
-	int		foundHorizontalWallHit;
-	float	horizWallHitX;
-	float	horizWallHitY;
-	int		foundVertWallHit;
-	float	wallVertHitX;
-	float	wallVertHitY;
+	int		is_ray_facing_up;
+	int		is_ray_facing_down;
+	int		is_ray_facing_left;
+	int		is_ray_facing_right;
+	int		was_hit_vertical;
+	int		found_horizontal_wall_hit;
+	float	horiz_wall_hitx;
+	float	horiz_wall_hity;
+	int		found_vert_wall_hit;
+	float	wall_vert_hitx;
+	float	wall_vert_hity;
 }	t_ray;
 
 typedef struct s_player
@@ -93,11 +101,11 @@ typedef struct s_player
 	float	player_y;
 	float	p_width;
 	float	p_height;
-	float	turnDirection;
-	int		walkDirection;
-	float	rotationAngle;
-	float	walkSpeed;
-	float	turnSpeed;
+	float	turn_direction;
+	int		walk_direction;
+	float	rotation_angle;
+	float	walk_speed;
+	float	turn_speed;
 	int		is_init;
 }	t_player;
 
@@ -123,21 +131,14 @@ typedef struct s_game
 	int			m_width;
 	int			win_width;
 	int			win_height;
-	int			mini_map_width;
-	int			mini_map_height;
-	int			mini_map_tile;
 	void		*win;
 	void		*mlx;
 	mlx_image_t	*img;
-	long		last_frame_ms;
 	t_player	player;
 	t_ray		*ray;
-	int			isRayFacingDown;
-	int			isRayFacingUp;
-	int			isRayFacingRight;
-	int			isRayFacingLeft;
-	float		horizHitDistance;
-	float		vertHitDistance;
+	float		horiz_hit_distance;
+	float		vert_hit_distance;
+	int			is_game_started;
 }	t_game;
 
 typedef struct s_fill_map
@@ -191,24 +192,18 @@ void		draw_3d_textures(t_game *game);
 int			load_images(t_game **game);
 int			check_all_pathimg(t_game *game);
 uint32_t	ft_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
-int			init_cub_window(t_game *game);
 int			init(t_game **game);
-long		get_current_time(void);
 int			check_for_collision(t_game *game, int newPlayerX, int newPlayerY);
 float		distance_between_points(float x1, float y1, float x2, float y2);
-int			is_wall(t_game *game, float x, float y);
+// int			is_wall(t_game *game, float x, float y);
 float		normalize_angle(float rayAngle);
-void		draw_line(void *win, t_line line);
-void		draw_all_lines(t_game *game);
-void		draw_player_direction(t_game *game);
-void		draw_player(t_game *game);
 void		init_player_position(t_game *game, int x, int y);
 void		cast_horizontal_ray(t_game *game, float rayAngle, t_ray *ray);
 void		cast_vertical_ray(t_game *game, float rayAngle, t_ray *ray);
 void		render(t_game *game);
-void		draw_mini_map(t_game *game);
 void		game_loop(void *param);
 void		cast_all_rays(t_game *game);
-void		draw_map(t_game *game);
+int			check_for_collision_1(t_game *game, int newPlayerX, int newPlayerY);
+int			checker(t_game *game, int map_x, int map_y);
 
 #endif

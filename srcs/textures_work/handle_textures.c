@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_textures.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/18 12:51:56 by aykassim          #+#    #+#             */
-/*   Updated: 2025/10/22 19:41:26 by aykassim         ###   ########.fr       */
+/*   Created: 2025/11/03 14:03:29 by iaskour           #+#    #+#             */
+/*   Updated: 2025/11/03 14:03:32 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@ mlx_image_t	*detect_texture(t_game *game, t_ray *ray)
 {
 	mlx_image_t	*texture;
 
-	if (ray->wasHitVertical)
+	if (ray->was_hit_vertical)
 	{
-		if (ray->isRayFacingRight)
+		if (ray->is_ray_facing_right)
 			texture = game->ea_texture;
 		else
 			texture = game->we_texture;
 	}
 	else
 	{
-		if (ray->isRayFacingUp)
+		if (ray->is_ray_facing_up)
 			texture = game->no_texture;
 		else
 			texture = game->so_texture;
@@ -38,10 +38,10 @@ int	count_xtex(t_ray *ray, int tex_width)
 	int		xtex;
 	float	hit_offset;
 
-	if (ray->wasHitVertical)
-		hit_offset = fmod(ray->wallHitY, TILE_SIZE) / TILE_SIZE;
+	if (ray->was_hit_vertical)
+		hit_offset = fmod(ray->wall_hity, TILE_SIZE) / TILE_SIZE;
 	else
-		hit_offset = fmod(ray->wallHitX, TILE_SIZE) / TILE_SIZE;
+		hit_offset = fmod(ray->wall_hitx, TILE_SIZE) / TILE_SIZE;
 	xtex = (int)(hit_offset * tex_width);
 	return (xtex);
 }
@@ -53,8 +53,14 @@ int	count_ytex(int wall_top, int wall_bottom, int tex_height, int y)
 	float	tex_pos;
 
 	wall_height = wall_bottom - wall_top;
+	if (wall_height <= 0)
+		return (0);
 	tex_pos = (y - wall_top) / wall_height;
 	ytex = (int)(tex_pos * tex_height);
+	if (ytex >= tex_height)
+		ytex = tex_height - 1;
+	if (ytex < 0)
+		ytex = 0;
 	return (ytex);
 }
 
@@ -95,10 +101,6 @@ void	draw_3d_textures(t_game *game)
 		draw.proj_height = (TILE_SIZE * game->win_height) / draw.ray->distance;
 		draw.wall_top = (int)((game->win_height - draw.proj_height) / 2);
 		draw.wall_bottom = (int)((game->win_height + draw.proj_height) / 2);
-		if (draw.wall_top < 0)
-			draw.wall_top = 0;
-		if (draw.wall_bottom >= game->win_height)
-			draw.wall_bottom = game->win_height - 1;
 		draw.texture = detect_texture(game, draw.ray);
 		draw.xtex = count_xtex(draw.ray, draw.texture->width);
 		if (draw.xtex >= (int)draw.texture->width)
