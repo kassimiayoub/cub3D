@@ -6,35 +6,36 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 10:38:46 by iaskour           #+#    #+#             */
-/*   Updated: 2025/10/20 13:27:21 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/11/03 10:59:59 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+#include "cub3D.h"
+
 void	cast_it_horiz(t_game *game, t_horiz horiz, t_ray *ray)
 {
-	while (horiz.nextHorizTouchX >= 0
-		&& horiz.nextHorizTouchX < game->win_width
-		&& horiz.nextHorizTouchY >= 0
-		&& horiz.nextHorizTouchY < game->win_height)
+	while (horiz.next_horiz_touchx >= 0
+		&& horiz.next_horiz_touchx < game->win_width
+		&& horiz.next_horiz_touchy >= 0
+		&& horiz.next_horiz_touchy < game->win_height)
 	{
-		horiz.xToCheck = horiz.nextHorizTouchX;
-		horiz.yToCheck = horiz.nextHorizTouchY;
-		// come back later
-		if (ray->isRayFacingUp)
-			horiz.yToCheck -= 1;
-		if (check_for_collision(game, horiz.xToCheck, horiz.yToCheck))
+		horiz.x_to_check = horiz.next_horiz_touchx;
+		horiz.y_to_check = horiz.next_horiz_touchy;
+		if (ray->is_ray_facing_up)
+			horiz.y_to_check -= 1;
+		if (check_for_collision_1(game, horiz.x_to_check, horiz.y_to_check))
 		{
-			ray->horizWallHitX = horiz.nextHorizTouchX;
-			ray->horizWallHitY = horiz.nextHorizTouchY;
-			ray->foundHorizontalWallHit = 1;
+			ray->horiz_wall_hitx = horiz.next_horiz_touchx;
+			ray->horiz_wall_hity = horiz.next_horiz_touchy;
+			ray->found_horizontal_wall_hit = 1;
 			break ;
 		}
 		else
 		{
-			horiz.nextHorizTouchX += horiz.xstep;
-			horiz.nextHorizTouchY += horiz.ystep;
+			horiz.next_horiz_touchx += horiz.xstep;
+			horiz.next_horiz_touchy += horiz.ystep;
 		}
 	}
 }
@@ -43,17 +44,13 @@ void	init_cast_horiz(t_game *game, t_horiz horiz, t_ray *ray, float rayAngle)
 {
 	horiz.xintercept = game->player.player_x
 		+ (horiz.yintercept - game->player.player_y) / tan(rayAngle);
-	if (ray->isRayFacingUp)
+	if (ray->is_ray_facing_up)
 		horiz.ystep = -TILE_SIZE;
 	else
 		horiz.ystep = TILE_SIZE;
-	// come back later over here
 	horiz.xstep = horiz.ystep / tan(rayAngle);
-	if ((ray->isRayFacingLeft && horiz.xstep > 0)
-		|| (ray->isRayFacingRight && horiz.xstep < 0))
-		horiz.xstep = -horiz.xstep;
-	horiz.nextHorizTouchX = horiz.xintercept;
-	horiz.nextHorizTouchY = horiz.yintercept;
+	horiz.next_horiz_touchx = horiz.xintercept;
+	horiz.next_horiz_touchy = horiz.yintercept;
 	cast_it_horiz(game, horiz, ray);
 }
 
@@ -61,18 +58,11 @@ void	cast_horizontal_ray(t_game *game, float rayAngle, t_ray *ray)
 {
 	t_horiz	horiz;
 
-	ray->foundHorizontalWallHit = 0;
-	ray->horizWallHitX = 0;
-	ray->horizWallHitY = 0;
+	ray->found_horizontal_wall_hit = 0;
+	ray->horiz_wall_hitx = 0;
+	ray->horiz_wall_hity = 0;
 	horiz.yintercept = floor(game->player.player_y / TILE_SIZE) * TILE_SIZE;
-	if (ray->isRayFacingDown)
+	if (ray->is_ray_facing_down)
 		horiz.yintercept += TILE_SIZE;
-	if (fabs(tan(rayAngle)) < 0.0001)
-	{
-		ray->foundHorizontalWallHit = 0;
-		ray->horizWallHitX = 0;
-		ray->horizWallHitY = 0;
-	}
-	else
-		init_cast_horiz(game, horiz, ray, rayAngle);
+	init_cast_horiz(game, horiz, ray, rayAngle);
 }

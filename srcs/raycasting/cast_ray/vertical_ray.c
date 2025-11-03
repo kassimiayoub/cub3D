@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vertical_ray.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:01:50 by iaskour           #+#    #+#             */
-/*   Updated: 2025/10/07 17:46:55 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/11/03 11:07:34 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,26 @@
 
 void	cast_it_vert(t_game *game, t_vert vert, t_ray *ray)
 {
-	while (vert.nextVertTouchX >= 0
-		&& vert.nextVertTouchX < game->win_width
-		&& vert.nextVertTouchY >= 0
-		&& vert.nextVertTouchY < game->win_height)
+	while (vert.next_vert_touchx >= 0
+		&& vert.next_vert_touchx < game->win_width
+		&& vert.next_vert_touchy >= 0
+		&& vert.next_vert_touchy < game->win_height)
 	{
-		vert.xToCheck = vert.nextVertTouchX;
-		if (ray->isRayFacingLeft)
-			vert.xToCheck -= 1;
-		vert.yToCheck = vert.nextVertTouchY;
-		if (check_for_collision(game, vert.xToCheck, vert.yToCheck))
+		vert.x_to_check = vert.next_vert_touchx;
+		if (ray->is_ray_facing_left)
+			vert.x_to_check -= 1;
+		vert.y_to_check = vert.next_vert_touchy;
+		if (check_for_collision_1(game, vert.x_to_check, vert.y_to_check))
 		{
-			ray->foundVertWallHit = 1;
-			ray->wallVertHitX = vert.nextVertTouchX;
-			ray->wallVertHitY = vert.nextVertTouchY;
+			ray->found_vert_wall_hit = 1;
+			ray->wall_vert_hitx = vert.next_vert_touchx;
+			ray->wall_vert_hity = vert.next_vert_touchy;
 			break ;
 		}
 		else
 		{
-			vert.nextVertTouchX += vert.xstep;
-			vert.nextVertTouchY += vert.ystep;
+			vert.next_vert_touchx += vert.xstep;
+			vert.next_vert_touchy += vert.ystep;
 		}
 	}
 }
@@ -42,16 +42,13 @@ void	init_cast_vert(t_game *game, t_vert vert, t_ray *ray, float rayAngle)
 {
 	vert.yintercept = game->player.player_y
 		+ (vert.xintercept - game->player.player_x) * tan(rayAngle);
-	if (ray->isRayFacingLeft)
+	if (ray->is_ray_facing_left)
 		vert.xstep = -TILE_SIZE;
 	else
 		vert.xstep = TILE_SIZE;
 	vert.ystep = vert.xstep * tan(rayAngle);
-	if ((ray->isRayFacingUp && vert.ystep > 0)
-		|| (ray->isRayFacingDown && vert.ystep < 0))
-		vert.ystep = -vert.ystep;
-	vert.nextVertTouchX = vert.xintercept;
-	vert.nextVertTouchY = vert.yintercept;
+	vert.next_vert_touchx = vert.xintercept;
+	vert.next_vert_touchy = vert.yintercept;
 	cast_it_vert(game, vert, ray);
 }
 
@@ -59,18 +56,11 @@ void	cast_vertical_ray(t_game *game, float rayAngle, t_ray *ray)
 {
 	t_vert	vert;
 
-	ray->foundVertWallHit = 0;
-	ray->wallVertHitX = 0;
-	ray->wallVertHitY = 0;
+	ray->found_vert_wall_hit = 0;
+	ray->wall_vert_hitx = 0;
+	ray->wall_vert_hity = 0;
 	vert.xintercept = floor(game->player.player_x / TILE_SIZE) * TILE_SIZE;
-	if (ray->isRayFacingRight)
+	if (ray->is_ray_facing_right)
 		vert.xintercept += TILE_SIZE;
-	if (fabs(cos(rayAngle)) < 0.0001)
-	{
-		ray->foundVertWallHit = 0;
-		ray->wallVertHitX = 0;
-		ray->wallVertHitY = 0;
-	}
-	else
-		init_cast_vert(game, vert, ray, rayAngle);
+	init_cast_vert(game, vert, ray, rayAngle);
 }
