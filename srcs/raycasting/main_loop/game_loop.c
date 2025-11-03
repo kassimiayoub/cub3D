@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/17 07:07:04 by iaskour           #+#    #+#             */
-/*   Updated: 2025/11/03 11:03:45 by iaskour          ###   ########.fr       */
+/*   Created: 2025/11/03 14:03:07 by iaskour           #+#    #+#             */
+/*   Updated: 2025/11/03 14:06:08 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	render(t_game *game)
 {
 	cast_all_rays(game);
 	draw_3d_textures(game);
+    draw_map(game);
+    draw_3d_textures(game);
 }
 
 void	update_player(t_game *game)
