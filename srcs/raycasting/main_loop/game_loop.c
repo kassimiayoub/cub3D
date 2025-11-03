@@ -6,7 +6,7 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 14:03:07 by iaskour           #+#    #+#             */
-/*   Updated: 2025/11/03 14:06:08 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/11/03 14:16:10 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int	check_for_collision(t_game *game, int newPlayerX, int newPlayerY)
 void	render(t_game *game)
 {
 	cast_all_rays(game);
-	draw_3d_textures(game);
-    draw_map(game);
     draw_3d_textures(game);
 }
 
