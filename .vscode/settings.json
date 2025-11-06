@@ -3,6 +3,7 @@
         "unordered_map": "c",
         "istream": "c",
         "numeric": "c",
-        "ostream": "c"
+        "ostream": "c",
+        "sstream": "c"
     }
 }

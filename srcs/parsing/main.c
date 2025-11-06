@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:15:21 by aykassim          #+#    #+#             */
-/*   Updated: 2025/11/06 11:12:47 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:39:34 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,30 @@ int	allocation_initial_struct(t_game **game)
 	return (1);
 }
 
-void	f(void)
-{
-	system("leaks cub3D");
-	system("lsof -c cub3D");
-}
-
 void	free_all(t_game *game)
 {
 	gc_clear(game->gc);
 	free(game->gc);
 	free(game);
+}
+
+void	on_close(void *param)
+{
+	t_game	*game;
+
+	game = (t_game *)param;
+	mlx_terminate(game->mlx);
+	free_all(game);
+	exit(0);
+}
+
+void	mlx_func(t_game *game)
+{
+	mlx_image_to_window(game->mlx, game->img, 0, 0);
+	mlx_close_hook(game->mlx, on_close, game);
+	mlx_loop_hook(game->mlx, game_loop, game);
+	mlx_loop(game->mlx);
+	mlx_terminate(game->mlx);
 }
 
 int	main(int ac, char **av)
@@ -50,8 +63,10 @@ int	main(int ac, char **av)
 	if (ac != 2 || !map_extension(av[1]))
 		return (printf("Error:\n Nbr param || Extension not .cub!!\n"), 1);
 	game = malloc(sizeof(t_game));
-	if (!game || !allocation_initial_struct(&game))
-		return (printf("Error:\n Allocation fail!!)\n"), 1);
+	if (!game)
+		return (printf("Error:\n Allocation fail!!\n"), 1);
+	if (!allocation_initial_struct(&game))
+		return (printf("Error:\n Allocation fail!!\n"), free(game), 1);
 	if (!read_map(&game, av[1]))
 		return (free_all(game), 1);
 	if (!init(&game))
@@ -65,9 +80,6 @@ int	main(int ac, char **av)
 		return (mlx_terminate(game->mlx), 1);
 	if (!load_images(&game))
 		return (printf("Error:\n Load images to window!!!)\n"), 1);
-	mlx_image_to_window(game->mlx, game->img, 0, 0);
-	mlx_loop_hook(game->mlx, game_loop, game);
-	mlx_loop(game->mlx);
-	mlx_terminate(game->mlx);
+	mlx_func(game);
 	return (free_all(game), 0);
 }

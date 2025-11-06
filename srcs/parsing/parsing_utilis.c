@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utilis.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 11:00:05 by aykassim          #+#    #+#             */
-/*   Updated: 2025/11/06 11:10:25 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:25:09 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ int	fill_map_content(t_game **game, char *map)
 
 int	all_validate_element(t_game *game, char *map)
 {
-	if (game->is_player != 1)
-		return (printf("Error:\n More than one player!!"), 0);
 	if (!fill_map_content(&game, map))
 		return (printf("Error:\n Map caracters invalid!!\n"), 0);
+	if (game->is_player != 1)
+		return (printf("Error:\n Player problem!!"), 0);
 	if (!detect_map_is_valid(game))
 		return (printf("Error:\n Map walls invalid!!\n"), 0);
 	if (!validate_path(&game))

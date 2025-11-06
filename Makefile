@@ -1,37 +1,13 @@
 CC = cc 
 
-# FLAGS = -Wall -Werror -Wextra -Iincludes -I$(HOME)/MLX42_build/include -I$(HOME)/glfw/include -fsanitize=address -g
+FLAGS = -Wall -Werror -Wextra -Iincludes -I$(HOME)/MLX42_build/include -I$(HOME)/glfw/include #-fsanitize=address -g
 
-# MLX42_LIB = $(HOME)/MLX42_build/lib/libmlx42.a 
-# GLFW_DIR = $(HOME)/glfw/lib-universal
+MLX42_LIB = $(HOME)/MLX42_build/lib/libmlx42.a 
+GLFW_DIR = $(HOME)/glfw/lib-universal
 
-# LIBS = $(MLX42_LIB) -L$(GLFW_DIR) -lglfw3
+LIBS = $(MLX42_LIB) -L$(GLFW_DIR) -lglfw3
 
-# FRAMEWORKS = -framework Cocoa -framework OpenGL -framework IOKit -ldl -pthread -lm -framework CoreVideo
-
-# Compiler flags
-# FLAGS = -Wall -Werror -Wextra \
-#         -Iincludes \
-#         -I$(HOME)/Desktop/MLX42_install/include \
-#         -I$(HOME)/Desktop/glfw_install/include \
-#         -fsanitize=address -g
-
-# # Libraries
-# LIBS = -L$(HOME)/Desktop/MLX42_install/lib -lmlx42 \
-#        -L$(HOME)/Desktop/glfw_install/lib -lglfw \
-#        -ldl -lm -pthread
-
-#foxthrouth element
-###################################################
-FLAGS = -Wall -Werror -Wextra \
-        -Iincludes \
-        -I$(HOME)/MLX42/include \
-		#-fsanitize=address -g
-# Libraries
-LIBS = -L$(HOME)/MLX42/build -lmlx42 \
-       -ldl -lm -pthread -lglfw
-###################################################
-
+FRAMEWORKS = -framework Cocoa -framework OpenGL -framework IOKit -ldl -pthread -lm -framework CoreVideo
 
 NAME = cub3D
 

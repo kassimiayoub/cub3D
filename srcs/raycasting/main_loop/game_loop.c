@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 14:03:07 by iaskour           #+#    #+#             */
-/*   Updated: 2025/11/06 11:11:52 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:16:18 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,12 @@ void	process_input(t_game *game)
 {
 	game->player.walk_direction = 0;
 	game->player.turn_direction = 0;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
+	{
+		mlx_terminate(game->mlx);
+		free_all(game);
+		exit(0);
+	}
 	if (mlx_is_key_down(game->mlx, MLX_KEY_W)
 		|| mlx_is_key_down(game->mlx, MLX_KEY_UP))
 		game->player.walk_direction = 1;
