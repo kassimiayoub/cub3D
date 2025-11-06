@@ -6,7 +6,7 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:26:53 by iaskour           #+#    #+#             */
-/*   Updated: 2025/11/03 11:04:48 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/11/06 13:47:05 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <stdlib.h>
-# include <MLX42/MLX42.h>
+# include "MLX42/MLX42.h"
 # include <math.h>
 # include <float.h>
 
@@ -195,7 +195,6 @@ uint32_t	ft_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 int			init(t_game **game);
 int			check_for_collision(t_game *game, int newPlayerX, int newPlayerY);
 float		distance_between_points(float x1, float y1, float x2, float y2);
-// int			is_wall(t_game *game, float x, float y);
 float		normalize_angle(float rayAngle);
 void		init_player_position(t_game *game, int x, int y);
 void		cast_horizontal_ray(t_game *game, float rayAngle, t_ray *ray);
@@ -205,5 +204,6 @@ void		game_loop(void *param);
 void		cast_all_rays(t_game *game);
 int			check_for_collision_1(t_game *game, int newPlayerX, int newPlayerY);
 int			checker(t_game *game, int map_x, int map_y);
+void		free_all(t_game *game);
 
 #endif
