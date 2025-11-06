@@ -3,81 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   cast_all_rays.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:09:05 by iaskour           #+#    #+#             */
-/*   Updated: 2025/10/08 10:26:05 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/11/03 11:07:16 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	case_no_wall_hit(t_game *game, float ray_angle, int strip_id)
+void	distance_checker(t_game *game, t_ray *ray)
 {
-	if (game->horizHitDistance == FLT_MAX && game->vertHitDistance == FLT_MAX)
-	{
-		game->ray[strip_id].wallHitX = game->player.player_x
-			+ cos(ray_angle) * (TILE_SIZE * 20);
-		game->ray[strip_id].wallHitY = game->player.player_y
-			+ sin(ray_angle) * (TILE_SIZE * 20);
-		game->ray[strip_id].distance = TILE_SIZE * 20;
-		game->ray[strip_id].wasHitVertical = 0;
-		return (1);
-	}
-	return (0);
+	if (ray->found_horizontal_wall_hit)
+		game->horiz_hit_distance = distance_between_points(
+				game->player.player_x,
+				game->player.player_y,
+				ray->horiz_wall_hitx,
+				ray->horiz_wall_hity
+				);
+	if (ray->found_vert_wall_hit)
+		game->vert_hit_distance = distance_between_points(
+				game->player.player_x,
+				game->player.player_y,
+				ray->wall_vert_hitx,
+				ray->wall_vert_hity
+				);
 }
 
-void	choose_distance(t_game *game, float ray_angle, int strip_id, t_ray *ray)
+void	choose_distance(t_game *game, int strip_id, t_ray *ray)
 {
-	game->horizHitDistance = FLT_MAX;
-	game->vertHitDistance = FLT_MAX;
-	
-	if (ray->foundHorizontalWallHit)
-		game->horizHitDistance = distance_between_points(
-			game->player.player_x,
-			game->player.player_y,
-			ray->horizWallHitX,
-			ray->horizWallHitY
-		);
-	if (ray->foundVertWallHit)
-		game->vertHitDistance = distance_between_points(
-			game->player.player_x,
-			game->player.player_y,
-			ray->wallVertHitX,
-			ray->wallVertHitY
-		);
-	if (case_no_wall_hit(game, ray_angle, strip_id) == 0)
+	game->horiz_hit_distance = FLT_MAX;
+	game->vert_hit_distance = FLT_MAX;
+	distance_checker(game, ray);
+	game->ray[strip_id].wall_hitx = ray->horiz_wall_hitx;
+	game->ray[strip_id].wall_hity = ray->horiz_wall_hity;
+	game->ray[strip_id].distance = game->horiz_hit_distance;
+	game->ray[strip_id].was_hit_vertical = 0;
+	if (game->vert_hit_distance < game->horiz_hit_distance)
 	{
-		game->ray[strip_id].wallHitX = ray->horizWallHitX;
-		game->ray[strip_id].wallHitY = ray->horizWallHitY;
-		game->ray[strip_id].distance = game->horizHitDistance;
-		game->ray[strip_id].wasHitVertical = 0;
-		if (game->vertHitDistance < game->horizHitDistance)
-		{
-			game->ray[strip_id].wallHitX = ray->wallVertHitX;
-			game->ray[strip_id].wallHitY = ray->wallVertHitY;
-			game->ray[strip_id].distance = game->vertHitDistance;
-			game->ray[strip_id].wasHitVertical = 1;
-		}
+		game->ray[strip_id].wall_hitx = ray->wall_vert_hitx;
+		game->ray[strip_id].wall_hity = ray->wall_vert_hity;
+		game->ray[strip_id].distance = game->vert_hit_distance;
+		game->ray[strip_id].was_hit_vertical = 1;
 	}
 }
 
 void	cast_ray(t_game *game, float ray_angle, int strip_id, t_ray *ray)
 {
 	ray_angle = normalize_angle(ray_angle);
-	ray->isRayFacingDown = ray_angle > 0 && ray_angle < M_PI;
-	ray->isRayFacingUp = !ray->isRayFacingDown;
-	ray->isRayFacingRight = ray_angle < M_PI / 2 || ray_angle > 3 * M_PI / 2;
-	ray->isRayFacingLeft = !ray->isRayFacingRight;
+	ray->is_ray_facing_down = ray_angle > 0 && ray_angle < M_PI;
+	ray->is_ray_facing_up = !ray->is_ray_facing_down;
+	ray->is_ray_facing_right = ray_angle < M_PI / 2 || ray_angle > 3 * M_PI / 2;
+	ray->is_ray_facing_left = !ray->is_ray_facing_right;
 	cast_horizontal_ray(game, ray_angle, ray);
 	cast_vertical_ray(game, ray_angle, ray);
-	choose_distance(game, ray_angle, strip_id, ray);
-	game->ray[strip_id].distance *= cos(ray_angle - game->player.rotationAngle);
-	game->ray[strip_id].ray_angle = ray_angle;
-	game->ray[strip_id].isRayFacingDown = ray->isRayFacingDown;
-	game->ray[strip_id].isRayFacingUp = ray->isRayFacingUp;
-	game->ray[strip_id].isRayFacingLeft = ray->isRayFacingLeft;
-	game->ray[strip_id].isRayFacingRight = ray->isRayFacingRight;
+	choose_distance(game, strip_id, ray);
+	game->ray[strip_id].distance
+		*= cos(ray_angle - game->player.rotation_angle);
 }
 
 void	cast_all_rays(t_game *game)
@@ -85,18 +67,17 @@ void	cast_all_rays(t_game *game)
 	float	ray_angle;
 	float	angle_step;
 	int		strip_id;
-	int		numrays = game->win_width;
+	int		numrays;
 
+	numrays = game->win_width;
 	if (!game || !game->map || !game->player.is_init)
 		return ;
-	ray_angle = game->player.rotationAngle - (FOV_ANGLE / 2);
+	ray_angle = game->player.rotation_angle - (FOV_ANGLE / 2);
 	angle_step = FOV_ANGLE / numrays;
 	strip_id = 0;
 	while (strip_id < numrays)
 	{
-		// cast_ray(game, ray_angle, strip_id, game->ray);
 		cast_ray(game, ray_angle, strip_id, &game->ray[strip_id]);
-		// printf("strip_id = %d | ray_angle = %f\n", strip_id, ray_angle);
 		ray_angle += angle_step;
 		strip_id++;
 	}

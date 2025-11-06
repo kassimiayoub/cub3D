@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/13 16:59:53 by aykassim          #+#    #+#             */
-/*   Updated: 2025/10/21 16:13:22 by aykassim         ###   ########.fr       */
+/*   Created: 2025/11/06 10:59:56 by aykassim          #+#    #+#             */
+/*   Updated: 2025/11/06 10:59:58 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ int	detect_map_walls(t_game *game)
 	i = 0;
 	while (i < count_nbr_line(game->map) - 1)
 	{
+		if (game->map[i][0] != '1' && game->map[i][0] != ' ')
+			return (0);
+		if (game->map[i][ft_strlen(game->map[i]) - 1] != '1'
+			&& game->map[i][ft_strlen(game->map[i]) - 1] != ' ')
+			return (0);
 		j = 0;
 		while (game->map[i][j])
 		{

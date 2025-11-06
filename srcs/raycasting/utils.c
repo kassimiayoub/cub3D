@@ -6,22 +6,23 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:16:14 by iaskour           #+#    #+#             */
-/*   Updated: 2025/09/18 10:25:43 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/11/03 10:22:39 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-long	get_current_time(void)
+int	checker(t_game *game, int map_x, int map_y)
 {
-	struct timeval	tv;
-
-	if (gettimeofday(&tv, NULL) == -1)
-		return (0);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	if (map_x < 0 || map_x >= game->m_width
+		|| map_y < 0 || map_y >= game->m_height)
+		return (1);
+	if (game->map[map_y][map_x] == '1')
+		return (1);
+	return (0);
 }
 
-int	check_for_collision(t_game *game, int newPlayerX, int newPlayerY)
+int	check_for_collision_1(t_game *game, int newPlayerX, int newPlayerY)
 {
 	int	map_x;
 	int	map_y;
