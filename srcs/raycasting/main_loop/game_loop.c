@@ -33,7 +33,6 @@ void	render(t_game *game)
 {
 	cast_all_rays(game);
 	draw_3d_textures(game);
-	draw_3d_textures(game);
 }
 
 void	update_player(t_game *game)
