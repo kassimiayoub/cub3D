@@ -6,7 +6,7 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:15:21 by aykassim          #+#    #+#             */
-/*   Updated: 2025/10/19 17:10:36 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/11/06 11:12:47 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,5 @@ int	main(int ac, char **av)
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);
 	mlx_terminate(game->mlx);
-	free_all(game);
-	return (0);
+	return (free_all(game), 0);
 }

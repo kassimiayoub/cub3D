@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 14:03:07 by iaskour           #+#    #+#             */
-/*   Updated: 2025/11/03 14:16:10 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/11/06 11:11:52 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_for_collision(t_game *game, int newPlayerX, int newPlayerY)
 void	render(t_game *game)
 {
 	cast_all_rays(game);
-    draw_3d_textures(game);
+	draw_3d_textures(game);
 }
 
 void	update_player(t_game *game)
