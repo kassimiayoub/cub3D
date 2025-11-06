@@ -6,7 +6,7 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:02:55 by aykassim          #+#    #+#             */
-/*   Updated: 2025/10/21 10:51:49 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/10/21 16:22:50 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	fill_map_content(t_game **game, char *map)
 
 int	all_validate_element(t_game *game, char *map)
 {
+	printf("height = > %d\n",game->m_height);
 	if (game->is_player != 1)
 		return (printf("Error:\n More than one player!!"), 0);
 	if (!fill_map_content(&game, map))

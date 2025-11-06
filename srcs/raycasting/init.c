@@ -6,7 +6,7 @@
 /*   By: aykassim <aykassim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:17:03 by iaskour           #+#    #+#             */
-/*   Updated: 2025/10/08 14:43:24 by aykassim         ###   ########.fr       */
+/*   Updated: 2025/10/21 16:13:59 by aykassim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void	init_ray(t_game **game)
 
 int	init(t_game **game)
 {
-	// game->m_width = 64;
-	// game->m_height = 32;
 	(*game)->player.is_init = 0;
 	(*game)->win_width = (*game)->m_width * TILE_SIZE;
 	(*game)->win_height = (*game)->m_height * TILE_SIZE;

@@ -26,7 +26,7 @@ CC = cc
 FLAGS = -Wall -Werror -Wextra \
         -Iincludes \
         -I$(HOME)/MLX42/include \
-        -fsanitize=address -g
+        #-fsanitize=address -g
 # Libraries
 LIBS = -L$(HOME)/MLX42/build -lmlx42 \
        -ldl -lm -pthread -lglfw
@@ -59,6 +59,12 @@ OBJSGNL = $(SRCSGNL:%.c=%.o)
 OBJR = $(SRCR:%.c=%.o)
 
 all: $(NAME)
+
+valgrind: $(NAME)
+	valgrind --leak-check=full --track-origins=yes ./$(NAME) $(ARGS)
+
+fdvalgrind: $(NAME)
+	valgrind --leak-check=full --track-fds=yes ./$(NAME) $(ARGS)
 
 $(NAME): $(OBJP) $(OBJR) $(OBJSGNL)
 	$(CC) $(FLAGS) $(OBJP) $(OBJR) $(OBJSGNL) $(LIBS) $(FRAMEWORKS) -o $(NAME) 
