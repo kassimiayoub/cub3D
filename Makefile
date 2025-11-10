@@ -1,6 +1,6 @@
 CC = cc 
 
-FLAGS = -Wall -Werror -Wextra -Iincludes -I$(HOME)/MLX42_build/include -I$(HOME)/glfw/include #-fsanitize=address -g
+FLAGS = -Wall -Werror -Wextra -Iincludes -I$(HOME)/MLX42_build/include -I$(HOME)/glfw/include 
 
 MLX42_LIB = $(HOME)/MLX42_build/lib/libmlx42.a 
 GLFW_DIR = $(HOME)/glfw/lib-universal
@@ -35,12 +35,6 @@ OBJSGNL = $(SRCSGNL:%.c=%.o)
 OBJR = $(SRCR:%.c=%.o)
 
 all: $(NAME)
-
-valgrind: $(NAME)
-	valgrind --leak-check=full --track-origins=yes ./$(NAME) $(ARGS)
-
-fdvalgrind: $(NAME)
-	valgrind --leak-check=full --track-fds=yes ./$(NAME) $(ARGS)
 
 $(NAME): $(OBJP) $(OBJR) $(OBJSGNL)
 	$(CC) $(FLAGS) $(OBJP) $(OBJR) $(OBJSGNL) $(LIBS) $(FRAMEWORKS) -o $(NAME) 

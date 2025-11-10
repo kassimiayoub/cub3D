@@ -6,7 +6,7 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:26:53 by iaskour           #+#    #+#             */
-/*   Updated: 2025/11/10 11:44:18 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/11/10 11:52:12 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "get_next_line.h"
 # include <stdio.h>
-# include <fcntl.h>
+# include <fcntl.h> 
 # include <stdlib.h>
 # include "MLX42/MLX42.h"
 # include <math.h>
