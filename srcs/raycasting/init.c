@@ -6,7 +6,7 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:17:03 by iaskour           #+#    #+#             */
-/*   Updated: 2025/11/06 13:46:57 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/11/10 11:44:47 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	init_ray(t_game **game)
 	i = 0;
 	while (i < (*game)->win_width)
 	{
-		(*game)->ray[i].distance = FLT_MAX;
+		(*game)->ray[i].distance = LONG_MAX;
 		(*game)->ray[i].wall_hitx = 0;
 		(*game)->ray[i].wall_hity = 0;
 		(*game)->ray[i].was_hit_vertical = 0;

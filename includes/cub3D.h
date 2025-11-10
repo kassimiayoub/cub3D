@@ -6,7 +6,7 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:26:53 by iaskour           #+#    #+#             */
-/*   Updated: 2025/11/06 13:47:05 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/11/10 11:44:18 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <stdlib.h>
 # include "MLX42/MLX42.h"
 # include <math.h>
-# include <float.h>
 
 # define TILE_SIZE 32
 # define FOV_ANGLE 1.0471975512
