@@ -6,7 +6,7 @@
 /*   By: iaskour <iaskour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:09:05 by iaskour           #+#    #+#             */
-/*   Updated: 2025/11/03 11:07:16 by iaskour          ###   ########.fr       */
+/*   Updated: 2025/11/10 11:44:59 by iaskour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	distance_checker(t_game *game, t_ray *ray)
 
 void	choose_distance(t_game *game, int strip_id, t_ray *ray)
 {
-	game->horiz_hit_distance = FLT_MAX;
-	game->vert_hit_distance = FLT_MAX;
+	game->horiz_hit_distance = LONG_MAX;
+	game->vert_hit_distance = LONG_MAX;
 	distance_checker(game, ray);
 	game->ray[strip_id].wall_hitx = ray->horiz_wall_hitx;
 	game->ray[strip_id].wall_hity = ray->horiz_wall_hity;
